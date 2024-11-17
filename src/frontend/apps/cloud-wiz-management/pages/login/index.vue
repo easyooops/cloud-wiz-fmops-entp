@@ -39,7 +39,7 @@ import { mapActions } from 'pinia';
 definePageMeta({
   layout: 'custom'
 })
-
+ 
 export default {
   name: 'login',
   data() {
