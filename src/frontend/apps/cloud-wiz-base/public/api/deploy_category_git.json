@@ -1,0 +1,86 @@
+{
+  "resultCode": 200,
+  "resultMsg": "success",
+  "resultData": {
+    "category_list": [
+      {
+        "deploy_code": "CW0300000000",
+        "deploy_name": "Template",
+        "deploy_grp_code": "CW0000000000",
+        "deploy_node": "1",
+        "deploy_order": "3"
+      },
+      {
+        "deploy_code": "CW0301000000",
+        "deploy_name": "Tier I (Simple)",
+        "deploy_grp_code": "CW0300000000",
+        "deploy_node": "2",
+        "deploy_order": "1"
+      },
+      {
+        "deploy_code": "CW0301010000",
+        "deploy_name": "Web Service (db not used)",
+        "deploy_grp_code": "CW0301000000",
+        "deploy_node": "3",
+        "deploy_order": "1"
+      },
+      {
+        "deploy_code": "CW0301020000",
+        "deploy_name": "No Web Service (db not used)",
+        "deploy_grp_code": "CW0301000000",
+        "deploy_node": "3",
+        "deploy_order": "2"
+      },
+      {
+        "deploy_code": "CW0301030000",
+        "deploy_name": "Database (only use db)",
+        "deploy_grp_code": "CW0301000000",
+        "deploy_node": "3",
+        "deploy_order": "3"
+      },
+      {
+        "deploy_code": "CW0302000000",
+        "deploy_name": "Tier II",
+        "deploy_grp_code": "CW0300000000",
+        "deploy_node": "2",
+        "deploy_order": "2"
+      },
+      {
+        "deploy_code": "CW0302010000",
+        "deploy_name": "Web Service (db not used)",
+        "deploy_grp_code": "CW0302000000",
+        "deploy_node": "3",
+        "deploy_order": "1"
+      },
+      {
+        "deploy_code": "CW0302020000",
+        "deploy_name": "No Web Service",
+        "deploy_grp_code": "CW0302000000",
+        "deploy_node": "3",
+        "deploy_order": "2"
+      },
+      {
+        "deploy_code": "CW0302030000",
+        "deploy_name": "Web Service",
+        "deploy_grp_code": "CW0302000000",
+        "deploy_node": "3",
+        "deploy_order": "3"
+      },
+      {
+        "deploy_code": "CW0303000000",
+        "deploy_name": "Tier III",
+        "deploy_grp_code": "CW0300000000",
+        "deploy_node": "2",
+        "deploy_order": "3"
+      },
+      {
+        "deploy_code": "CW0303010000",
+        "deploy_name": "Web Service",
+        "deploy_grp_code": "CW0303000000",
+        "deploy_node": "3",
+        "deploy_order": "1"
+      }
+    ]
+  },
+  "timestamp": "2023-01-27T08:28:53.625Z"
+}

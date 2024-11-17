@@ -1,0 +1,145 @@
+/* ==========================================================================
+  37. COLOR SCHEME - MAGENTA
+========================================================================== */
+.scheme-magenta .go-to-top {
+  background-color: #c73e9b;
+}
+.scheme-magenta .tab-list .tab-link.current {
+  background-color: #c73e9b;
+  border: 2px solid #c73e9b;
+  color: #fff;
+}
+.scheme-magenta .bg--theme {
+  background-color: #c73e9b;
+}
+.scheme-magenta .shape--blue-400:after {
+  background-color: #c73e9b;
+}
+.scheme-magenta .btn--theme {
+  color: #fff !important;
+  border-color: #c73e9b !important;
+  background-color: #c73e9b !important;
+}
+.scheme-magenta .hover--theme:hover {
+  color: #fff !important;
+  border-color: #b3338a !important;
+  background-color: #b3338a !important;
+}
+.scheme-magenta .white-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #b3338a !important;
+  background-color: #b3338a !important;
+}
+.scheme-magenta .black-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #b3338a !important;
+  background-color: #b3338a !important;
+}
+.scheme-magenta .theme--dark .white-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #b3338a !important;
+  background-color: #b3338a !important;
+}
+.scheme-magenta .theme--dark .white-scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #b3338a !important;
+  background-color: #b3338a !important;
+}
+.scheme-magenta .color--theme {
+  color: #c73e9b !important;
+}
+.scheme-magenta .color--theme h1 {
+  color: #c73e9b !important;
+}
+.scheme-magenta .color--theme h2 {
+  color: #c73e9b !important;
+}
+.scheme-magenta .color--theme h3 {
+  color: #c73e9b !important;
+}
+.scheme-magenta .color--theme h4 {
+  color: #c73e9b !important;
+}
+.scheme-magenta .color--theme h5 {
+  color: #c73e9b !important;
+}
+.scheme-magenta .color--theme h6 {
+  color: #c73e9b !important;
+}
+.scheme-magenta .color--theme p {
+  color: #c73e9b !important;
+}
+.scheme-magenta .color--theme a {
+  color: #c73e9b !important;
+}
+.scheme-magenta .color--theme li {
+  color: #c73e9b !important;
+}
+.scheme-magenta .color--theme i {
+  color: #c73e9b !important;
+}
+.scheme-magenta .color--theme span {
+  color: #c73e9b !important;
+}
+.scheme-magenta .color--white .color--theme {
+  color: #c73e9b !important;
+}
+.scheme-magenta .loading--theme .loader {
+  border-color: transparent #c73e9b;
+}
+.scheme-magenta .loading--theme .loader::after {
+  border-color: transparent rgba(247, 71, 128, 0.15);
+}
+.scheme-magenta .nav-theme .sm-info {
+  background-color: #c73e9b;
+}
+.scheme-magenta .wsmenu > .wsmenu-list.nav-theme > li > ul.sub-menu > li > a:hover {
+  color: #c73e9b !important;
+}
+.scheme-magenta .wsmenu > .wsmenu-list.nav-theme > li > .wsmegamenu.w-75 ul.link-list > li > a:hover {
+  color: #c73e9b !important;
+}
+.scheme-magenta .wsmenu > .wsmenu-list.nav-theme > li > .wsmegamenu.halfmenu ul.link-list > li > a:hover {
+  color: #c73e9b !important;
+}
+.scheme-magenta .hero-section .quick-form .form-control:focus {
+  border-color: #c73e9b;
+}
+.scheme-magenta .cbox-2:hover .cbox-2-ico.bg--theme {
+  color: #c73e9b;
+  border-color: #c73e9b;
+}
+.scheme-magenta .tabs-1.tabs--theme {
+  color: #c73e9b;
+  border-color: #c73e9b;
+}
+.scheme-magenta .tabs-1.tabs--theme li.current:hover {
+  color: #c73e9b;
+  border-color: #c73e9b;
+}
+.scheme-magenta .faqs-section .tabs--theme .tabs-1 li.current {
+  background-color: #c73e9b;
+  border-color: #c73e9b !important;
+}
+.scheme-magenta .faqs-section .tabs--theme .tabs-1 li.current:hover {
+  background-color: #c73e9b;
+  border-color: #c73e9b !important;
+}
+.scheme-magenta .switch-wrap input:checked + .switcher.switcher--theme {
+  background-color: #c73e9b;
+  border-color: #c73e9b;
+}
+.scheme-magenta .shape-ico.color--theme path {
+  fill: #feecf2;
+  fill: #feecf2;
+  fill: #feecf2;
+}
+.scheme-magenta .newsletter-section .form-control:focus {
+  background-color: #fff;
+  border-color: #353f4f;
+}
+.scheme-magenta .theme-pagination .page-item.active .page-link {
+  color: #fff !important;
+  background-color: #c73e9b;
+  border: 2px solid #c73e9b;
+}/*# sourceMappingURL=magenta.css.map */

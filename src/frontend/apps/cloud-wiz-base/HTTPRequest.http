@@ -1,0 +1,18 @@
+# Common
+GET https://be.cloudwiz-ai.com/api/wiz/comm
+#Authorization:
+Accept:*/*
+Content-Type:application/json
+
+# Consulting > Contact-us
+#POST https://be.cloudwiz-ai.com/api/wiz/contactus
+##Authorization:
+#Accept:*/*
+#Content-Type:application/json
+#
+#{
+#  "contact_us_email": "suyeong.yoo@bespinglobal.com",
+#  "contact_us_name": "suyeong.yoo",
+#  "contact_us_question": "클라우드에 대해 궁금합니다. 답변 가능 하신가요?",
+#  "contact_us_tp": "DB"
+#}

@@ -1,0 +1,50 @@
+[
+  {
+    "name":"eu-wiz-dev-gateway",
+    "id" : "i-0ca9w7c1wz34e7672",
+    "type" : "t2.medium",
+    "region" : "eu-central-1a",
+    "statuscolor" : "success",
+    "status" : "Healthy"
+  },
+  {
+    "name":"eu-wiz-stg-gateway",
+    "id" : "i-0wiz9w7c1wz78ee34",
+    "type" : "m3.large",
+    "region" : "eu-central-1b",
+    "statuscolor" : "success",
+    "status" : "Healthy"
+  },
+  {
+    "name":"eu-wiz-dev-dbgateway",
+    "id" : "i-0ca9w7c1wz34e7672",
+    "type" : "t2.medium",
+    "region" : "eu-central-1a",
+    "statuscolor" : "primary",
+    "status" : "Unhealthy"
+  },
+  {
+    "name":"eu-wiz-stg-dbgateway",
+    "id" : "i-0ca9w7c1wz34e7672",
+    "type" : "t2.micro",
+    "region" : "eu-central-1b",
+    "statuscolor" : "error",
+    "status" : "Critical"
+  },
+  {
+    "name":"eu-wiz-dev-was",
+    "id" : "i-0ca9w7c1wz34e7672",
+    "type" : "t2.medium",
+    "region" : "eu-central-1a",
+    "statuscolor" : "primary",
+    "status" : "Unhealthy"
+  },
+  {
+    "name":"eu-wiz-stg-was",
+    "id" : "i-0ca9w7c1wz34e7672",
+    "type" : "m4.large",
+    "region" : "eu-central-1b",
+    "statuscolor" : "success",
+    "status" : "Healthy"
+  }
+]

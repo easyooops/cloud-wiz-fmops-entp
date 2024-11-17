@@ -1,0 +1,250 @@
+/* ==========================================================================
+  37. COLOR SCHEME - BLUE
+========================================================================== */
+.scheme-blue {
+	$primary-color: #1680fb;
+	$secondary-color: #185abd;
+
+	.go-to-top {
+		background-color: $primary-color;
+	}
+
+	.tab-list {
+		.tab-link.current {
+			background-color: $primary-color;
+        	border: 2px solid $primary-color;
+			color: #fff;
+		}
+	}
+
+	.bg--theme {
+		background-color: $primary-color;
+	}
+	.shape--blue-400 {
+		&:after {
+			background-color: $primary-color;
+		}
+	}
+	.btn--theme {
+		color: #fff !important;
+		border-color: $primary-color !important;
+		background-color: $primary-color !important;
+	}
+	.hover--theme {
+		&:hover {
+			color: #fff !important;
+			border-color: $secondary-color !important;
+			background-color: $secondary-color !important;
+		}
+	}
+	.white-scroll {
+		.scroll {
+			.hover--theme {
+				&:hover {
+					color: #fff !important;
+					border-color: $secondary-color !important;
+					background-color: $secondary-color !important;
+				}
+			}
+		}
+	}
+	.black-scroll {
+		.scroll {
+			.hover--theme {
+				&:hover {
+					color: #fff !important;
+					border-color: $secondary-color !important;
+					background-color: $secondary-color !important;
+				}
+			}
+		}
+	}
+	.theme--dark {
+		.white-scroll {
+			.scroll {
+				.hover--theme {
+					&:hover {
+						color: #fff !important;
+						border-color: $secondary-color !important;
+						background-color: $secondary-color !important;
+					}
+				}
+			}
+			.hover--theme {
+				&:hover {
+					color: #fff !important;
+					border-color: $secondary-color !important;
+					background-color: $secondary-color !important;
+				}
+			}
+		}
+	}
+	.color--theme {
+		color: $primary-color !important;
+		h1 {
+			color: $primary-color !important;
+		}
+		h2 {
+			color: $primary-color !important;
+		}
+		h3 {
+			color: $primary-color !important;
+		}
+		h4 {
+			color: $primary-color !important;
+		}
+		h5 {
+			color: $primary-color !important;
+		}
+		h6 {
+			color: $primary-color !important;
+		}
+		p {
+			color: $primary-color !important;
+		}
+		a {
+			color: $primary-color !important;
+		}
+		li {
+			color: $primary-color !important;
+		}
+		i {
+			color: $primary-color !important;
+		}
+		span {
+			color: $primary-color !important;
+		}
+	}
+	.color--white {
+		.color--theme {
+			color: $primary-color !important;
+		}
+	}
+	.loading--theme {
+		.loader {
+			border-color: transparent $primary-color;
+			&::after {
+				border-color: transparent rgba(247, 71, 128, .15);
+			}
+		}
+	}
+	.nav-theme {
+		.sm-info {
+			background-color: $primary-color;
+		}
+	}
+	.wsmenu {
+		>.wsmenu-list.nav-theme {
+			>li {
+				>ul.sub-menu {
+					>li {
+						>a {
+							&:hover {
+								color: $primary-color !important;
+							}
+						}
+					}
+				}
+				>.wsmegamenu.w-75 {
+					ul.link-list {
+						>li {
+							>a {
+								&:hover {
+									color: $primary-color !important;
+								}
+							}
+						}
+					}
+				}
+				>.wsmegamenu.halfmenu {
+					ul.link-list {
+						>li {
+							>a {
+								&:hover {
+									color: $primary-color !important;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	.hero-section {
+		.quick-form {
+			.form-control {
+				&:focus {
+					border-color: $primary-color;
+				}
+			}
+		}
+	}
+	.cbox-2 {
+		&:hover {
+			.cbox-2-ico.bg--theme {
+				color: $primary-color;
+				border-color: $primary-color;
+			}
+		}
+	}
+	.tabs-1.tabs--theme {
+		color: $primary-color;
+		border-color: $primary-color;
+		li.current {
+			&:hover {
+				color: $primary-color;
+				border-color: $primary-color;
+			}
+		}
+	}
+	.faqs-section {
+		.tabs--theme {
+			.tabs-1 {
+				li.current {
+					background-color: $primary-color;
+					border-color: $primary-color !important;
+					&:hover {
+						background-color: $primary-color;
+						border-color: $primary-color !important;
+					}
+				}
+			}
+		}
+	}
+	.switch-wrap {
+		input {
+			&:checked {
+				+ {
+					.switcher.switcher--theme {
+						background-color: $primary-color;
+						border-color: $primary-color;
+					}
+				}
+			}
+		}
+	}
+	.shape-ico.color--theme {
+		path {
+			fill: #feecf2;
+			fill: #feecf2;
+			fill: #feecf2;
+		}
+	}
+	.newsletter-section {
+		.form-control {
+			&:focus {
+				background-color: #fff;
+				border-color: #353f4f;
+			}
+		}
+	}
+	.theme-pagination {
+		.page-item.active {
+			.page-link {
+				color: #fff !important;
+				background-color: $primary-color;
+				border: 2px solid $primary-color;
+			}
+		}
+	}
+}

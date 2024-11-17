@@ -1,0 +1,145 @@
+/* ==========================================================================
+  37. COLOR SCHEME - GREEN
+========================================================================== */
+.scheme-green .go-to-top {
+  background-color: #0fbc49;
+}
+.scheme-green .tab-list .tab-link.current {
+  background-color: #0fbc49;
+  border: 2px solid #0fbc49;
+  color: #fff;
+}
+.scheme-green .bg--theme {
+  background-color: #0fbc49;
+}
+.scheme-green .shape--blue-400:after {
+  background-color: #0fbc49;
+}
+.scheme-green .btn--theme {
+  color: #fff !important;
+  border-color: #0fbc49 !important;
+  background-color: #0fbc49 !important;
+}
+.scheme-green .hover--theme:hover {
+  color: #fff !important;
+  border-color: #07a53c !important;
+  background-color: #07a53c !important;
+}
+.scheme-green .white-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #07a53c !important;
+  background-color: #07a53c !important;
+}
+.scheme-green .black-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #07a53c !important;
+  background-color: #07a53c !important;
+}
+.scheme-green .theme--dark .white-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #07a53c !important;
+  background-color: #07a53c !important;
+}
+.scheme-green .theme--dark .white-scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #07a53c !important;
+  background-color: #07a53c !important;
+}
+.scheme-green .color--theme {
+  color: #0fbc49 !important;
+}
+.scheme-green .color--theme h1 {
+  color: #0fbc49 !important;
+}
+.scheme-green .color--theme h2 {
+  color: #0fbc49 !important;
+}
+.scheme-green .color--theme h3 {
+  color: #0fbc49 !important;
+}
+.scheme-green .color--theme h4 {
+  color: #0fbc49 !important;
+}
+.scheme-green .color--theme h5 {
+  color: #0fbc49 !important;
+}
+.scheme-green .color--theme h6 {
+  color: #0fbc49 !important;
+}
+.scheme-green .color--theme p {
+  color: #0fbc49 !important;
+}
+.scheme-green .color--theme a {
+  color: #0fbc49 !important;
+}
+.scheme-green .color--theme li {
+  color: #0fbc49 !important;
+}
+.scheme-green .color--theme i {
+  color: #0fbc49 !important;
+}
+.scheme-green .color--theme span {
+  color: #0fbc49 !important;
+}
+.scheme-green .color--white .color--theme {
+  color: #0fbc49 !important;
+}
+.scheme-green .loading--theme .loader {
+  border-color: transparent #0fbc49;
+}
+.scheme-green .loading--theme .loader::after {
+  border-color: transparent rgba(247, 71, 128, 0.15);
+}
+.scheme-green .nav-theme .sm-info {
+  background-color: #0fbc49;
+}
+.scheme-green .wsmenu > .wsmenu-list.nav-theme > li > ul.sub-menu > li > a:hover {
+  color: #0fbc49 !important;
+}
+.scheme-green .wsmenu > .wsmenu-list.nav-theme > li > .wsmegamenu.w-75 ul.link-list > li > a:hover {
+  color: #0fbc49 !important;
+}
+.scheme-green .wsmenu > .wsmenu-list.nav-theme > li > .wsmegamenu.halfmenu ul.link-list > li > a:hover {
+  color: #0fbc49 !important;
+}
+.scheme-green .hero-section .quick-form .form-control:focus {
+  border-color: #0fbc49;
+}
+.scheme-green .cbox-2:hover .cbox-2-ico.bg--theme {
+  color: #0fbc49;
+  border-color: #0fbc49;
+}
+.scheme-green .tabs-1.tabs--theme {
+  color: #0fbc49;
+  border-color: #0fbc49;
+}
+.scheme-green .tabs-1.tabs--theme li.current:hover {
+  color: #0fbc49;
+  border-color: #0fbc49;
+}
+.scheme-green .faqs-section .tabs--theme .tabs-1 li.current {
+  background-color: #0fbc49;
+  border-color: #0fbc49 !important;
+}
+.scheme-green .faqs-section .tabs--theme .tabs-1 li.current:hover {
+  background-color: #0fbc49;
+  border-color: #0fbc49 !important;
+}
+.scheme-green .switch-wrap input:checked + .switcher.switcher--theme {
+  background-color: #0fbc49;
+  border-color: #0fbc49;
+}
+.scheme-green .shape-ico.color--theme path {
+  fill: #feecf2;
+  fill: #feecf2;
+  fill: #feecf2;
+}
+.scheme-green .newsletter-section .form-control:focus {
+  background-color: #fff;
+  border-color: #353f4f;
+}
+.scheme-green .theme-pagination .page-item.active .page-link {
+  color: #fff !important;
+  background-color: #0fbc49;
+  border: 2px solid #0fbc49;
+}/*# sourceMappingURL=green.css.map */

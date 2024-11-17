@@ -1,0 +1,145 @@
+/* ==========================================================================
+  37. COLOR SCHEME - BLUESKY
+========================================================================== */
+.scheme-skyblue .go-to-top {
+  background-color: #3eb1ff;
+}
+.scheme-skyblue .tab-list .tab-link.current {
+  background-color: #3eb1ff;
+  border: 2px solid #3eb1ff;
+  color: #fff;
+}
+.scheme-skyblue .bg--theme {
+  background-color: #3eb1ff;
+}
+.scheme-skyblue .shape--blue-400:after {
+  background-color: #3eb1ff;
+}
+.scheme-skyblue .btn--theme {
+  color: #fff !important;
+  border-color: #3eb1ff !important;
+  background-color: #3eb1ff !important;
+}
+.scheme-skyblue .hover--theme:hover {
+  color: #fff !important;
+  border-color: #1680fb !important;
+  background-color: #1680fb !important;
+}
+.scheme-skyblue .white-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #1680fb !important;
+  background-color: #1680fb !important;
+}
+.scheme-skyblue .black-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #1680fb !important;
+  background-color: #1680fb !important;
+}
+.scheme-skyblue .theme--dark .white-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #1680fb !important;
+  background-color: #1680fb !important;
+}
+.scheme-skyblue .theme--dark .white-scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #1680fb !important;
+  background-color: #1680fb !important;
+}
+.scheme-skyblue .color--theme {
+  color: #3eb1ff !important;
+}
+.scheme-skyblue .color--theme h1 {
+  color: #3eb1ff !important;
+}
+.scheme-skyblue .color--theme h2 {
+  color: #3eb1ff !important;
+}
+.scheme-skyblue .color--theme h3 {
+  color: #3eb1ff !important;
+}
+.scheme-skyblue .color--theme h4 {
+  color: #3eb1ff !important;
+}
+.scheme-skyblue .color--theme h5 {
+  color: #3eb1ff !important;
+}
+.scheme-skyblue .color--theme h6 {
+  color: #3eb1ff !important;
+}
+.scheme-skyblue .color--theme p {
+  color: #3eb1ff !important;
+}
+.scheme-skyblue .color--theme a {
+  color: #3eb1ff !important;
+}
+.scheme-skyblue .color--theme li {
+  color: #3eb1ff !important;
+}
+.scheme-skyblue .color--theme i {
+  color: #3eb1ff !important;
+}
+.scheme-skyblue .color--theme span {
+  color: #3eb1ff !important;
+}
+.scheme-skyblue .color--white .color--theme {
+  color: #3eb1ff !important;
+}
+.scheme-skyblue .loading--theme .loader {
+  border-color: transparent #3eb1ff;
+}
+.scheme-skyblue .loading--theme .loader::after {
+  border-color: transparent rgba(247, 71, 128, 0.15);
+}
+.scheme-skyblue .nav-theme .sm-info {
+  background-color: #3eb1ff;
+}
+.scheme-skyblue .wsmenu > .wsmenu-list.nav-theme > li > ul.sub-menu > li > a:hover {
+  color: #3eb1ff !important;
+}
+.scheme-skyblue .wsmenu > .wsmenu-list.nav-theme > li > .wsmegamenu.w-75 ul.link-list > li > a:hover {
+  color: #3eb1ff !important;
+}
+.scheme-skyblue .wsmenu > .wsmenu-list.nav-theme > li > .wsmegamenu.halfmenu ul.link-list > li > a:hover {
+  color: #3eb1ff !important;
+}
+.scheme-skyblue .hero-section .quick-form .form-control:focus {
+  border-color: #3eb1ff;
+}
+.scheme-skyblue .cbox-2:hover .cbox-2-ico.bg--theme {
+  color: #3eb1ff;
+  border-color: #3eb1ff;
+}
+.scheme-skyblue .tabs-1.tabs--theme {
+  color: #3eb1ff;
+  border-color: #3eb1ff;
+}
+.scheme-skyblue .tabs-1.tabs--theme li.current:hover {
+  color: #3eb1ff;
+  border-color: #3eb1ff;
+}
+.scheme-skyblue .faqs-section .tabs--theme .tabs-1 li.current {
+  background-color: #3eb1ff;
+  border-color: #3eb1ff !important;
+}
+.scheme-skyblue .faqs-section .tabs--theme .tabs-1 li.current:hover {
+  background-color: #3eb1ff;
+  border-color: #3eb1ff !important;
+}
+.scheme-skyblue .switch-wrap input:checked + .switcher.switcher--theme {
+  background-color: #3eb1ff;
+  border-color: #3eb1ff;
+}
+.scheme-skyblue .shape-ico.color--theme path {
+  fill: #feecf2;
+  fill: #feecf2;
+  fill: #feecf2;
+}
+.scheme-skyblue .newsletter-section .form-control:focus {
+  background-color: #fff;
+  border-color: #353f4f;
+}
+.scheme-skyblue .theme-pagination .page-item.active .page-link {
+  color: #fff !important;
+  background-color: #3eb1ff;
+  border: 2px solid #3eb1ff;
+}/*# sourceMappingURL=skyblue.css.map */

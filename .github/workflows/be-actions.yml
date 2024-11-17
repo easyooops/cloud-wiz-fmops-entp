@@ -1,0 +1,75 @@
+name: Back-end Actions
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    paths:
+      - 'src/backend/**'
+
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout 
+
+env:
+  AWS_API_REGION: ${{secrets.AWS_API_REGION}}
+  AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+  ECR_REPOSITORY: ${{secrets.ECR_REPOSITORY}}           # ECR Repository Name
+  ECS_CLUSTER: ${{secrets.ECS_CLUSTER}}                 # ECS Cluster Name
+  ECS_SERVICE: ${{secrets.ECS_SERVICE}}                 # ECS Service Name
+  ECS_TASK_DEFINITION: ${{secrets.ECS_TASK_DEFINITION}} # ECS TaskDefinition Name
+  CONTAINER_NAME: ${{secrets.CONTAINER_NAME}}           # ECS TaskDefinition Container Name
+
+jobs:
+  build-and-upload-and-deploy:
+    runs-on: ubuntu-latest
+    # environment: main
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set AWS OIDC ROLE
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ env.AWS_OIDC_ROLE_ARN }}
+          aws-region: ${{ env.AWS_API_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Delete Previous Image
+        run: |
+          aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids imageTag=latest
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f src/backend/Dockerfile src/backend
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_DEFINITION }} --query taskDefinition > task-definition.json
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true

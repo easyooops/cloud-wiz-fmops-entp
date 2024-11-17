@@ -1,0 +1,145 @@
+/* ==========================================================================
+  37. COLOR SCHEME - RED
+========================================================================== */
+.scheme-red .go-to-top {
+  background-color: #ff1e1a;
+}
+.scheme-red .tab-list .tab-link.current {
+  background-color: #ff1e1a;
+  border: 2px solid #ff1e1a;
+  color: #fff;
+}
+.scheme-red .bg--theme {
+  background-color: #ff1e1a;
+}
+.scheme-red .shape--blue-400:after {
+  background-color: #ff1e1a;
+}
+.scheme-red .btn--theme {
+  color: #fff !important;
+  border-color: #ff1e1a !important;
+  background-color: #ff1e1a !important;
+}
+.scheme-red .hover--theme:hover {
+  color: #fff !important;
+  border-color: #ea100c !important;
+  background-color: #ea100c !important;
+}
+.scheme-red .white-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #ea100c !important;
+  background-color: #ea100c !important;
+}
+.scheme-red .black-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #ea100c !important;
+  background-color: #ea100c !important;
+}
+.scheme-red .theme--dark .white-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #ea100c !important;
+  background-color: #ea100c !important;
+}
+.scheme-red .theme--dark .white-scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #ea100c !important;
+  background-color: #ea100c !important;
+}
+.scheme-red .color--theme {
+  color: #ff1e1a !important;
+}
+.scheme-red .color--theme h1 {
+  color: #ff1e1a !important;
+}
+.scheme-red .color--theme h2 {
+  color: #ff1e1a !important;
+}
+.scheme-red .color--theme h3 {
+  color: #ff1e1a !important;
+}
+.scheme-red .color--theme h4 {
+  color: #ff1e1a !important;
+}
+.scheme-red .color--theme h5 {
+  color: #ff1e1a !important;
+}
+.scheme-red .color--theme h6 {
+  color: #ff1e1a !important;
+}
+.scheme-red .color--theme p {
+  color: #ff1e1a !important;
+}
+.scheme-red .color--theme a {
+  color: #ff1e1a !important;
+}
+.scheme-red .color--theme li {
+  color: #ff1e1a !important;
+}
+.scheme-red .color--theme i {
+  color: #ff1e1a !important;
+}
+.scheme-red .color--theme span {
+  color: #ff1e1a !important;
+}
+.scheme-red .color--white .color--theme {
+  color: #ff1e1a !important;
+}
+.scheme-red .loading--theme .loader {
+  border-color: transparent #ff1e1a;
+}
+.scheme-red .loading--theme .loader::after {
+  border-color: transparent rgba(247, 71, 128, 0.15);
+}
+.scheme-red .nav-theme .sm-info {
+  background-color: #ff1e1a;
+}
+.scheme-red .wsmenu > .wsmenu-list.nav-theme > li > ul.sub-menu > li > a:hover {
+  color: #ff1e1a !important;
+}
+.scheme-red .wsmenu > .wsmenu-list.nav-theme > li > .wsmegamenu.w-75 ul.link-list > li > a:hover {
+  color: #ff1e1a !important;
+}
+.scheme-red .wsmenu > .wsmenu-list.nav-theme > li > .wsmegamenu.halfmenu ul.link-list > li > a:hover {
+  color: #ff1e1a !important;
+}
+.scheme-red .hero-section .quick-form .form-control:focus {
+  border-color: #ff1e1a;
+}
+.scheme-red .cbox-2:hover .cbox-2-ico.bg--theme {
+  color: #ff1e1a;
+  border-color: #ff1e1a;
+}
+.scheme-red .tabs-1.tabs--theme {
+  color: #ff1e1a;
+  border-color: #ff1e1a;
+}
+.scheme-red .tabs-1.tabs--theme li.current:hover {
+  color: #ff1e1a;
+  border-color: #ff1e1a;
+}
+.scheme-red .faqs-section .tabs--theme .tabs-1 li.current {
+  background-color: #ff1e1a;
+  border-color: #ff1e1a !important;
+}
+.scheme-red .faqs-section .tabs--theme .tabs-1 li.current:hover {
+  background-color: #ff1e1a;
+  border-color: #ff1e1a !important;
+}
+.scheme-red .switch-wrap input:checked + .switcher.switcher--theme {
+  background-color: #ff1e1a;
+  border-color: #ff1e1a;
+}
+.scheme-red .shape-ico.color--theme path {
+  fill: #feecf2;
+  fill: #feecf2;
+  fill: #feecf2;
+}
+.scheme-red .newsletter-section .form-control:focus {
+  background-color: #fff;
+  border-color: #353f4f;
+}
+.scheme-red .theme-pagination .page-item.active .page-link {
+  color: #fff !important;
+  background-color: #ff1e1a;
+  border: 2px solid #ff1e1a;
+}/*# sourceMappingURL=red.css.map */

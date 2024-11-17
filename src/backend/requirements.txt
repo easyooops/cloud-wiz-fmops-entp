@@ -1,0 +1,78 @@
+# default
+# redis
+# types-redis
+uvicorn 
+pytest
+httpx
+python-jose
+python-dotenv
+python-multipart
+
+# env
+pydantic-settings
+
+# uvicorn
+multiprocess
+
+# Fastapi
+fastapi
+python-socketio
+
+# database
+sqlmodel
+sqlalchemy
+mysql-connector-python
+pymysql
+
+alembic
+
+# logger
+loguru
+
+# AWS
+boto3
+
+# llm
+langchain
+langchain_community
+langchain_openai
+langchain_aws
+langchain_core
+openai
+tiktoken
+tokencost
+langchain-huggingface
+snowflake-connector-python
+langchain-aws
+langchain-google-genai
+GitPython
+
+# chat
+langchain-openai
+langchain-google-genai
+
+# Vector store
+faiss-cpu
+langchain-chroma
+langchain-pinecone
+pinecone-client
+pinecone-notebooks
+
+#Document Loader
+pypdf
+pandas
+docx2txt
+openpyxl
+
+# # Datadog
+ddtrace
+
+# Google
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
+requests
+
+# Notion
+notion-client

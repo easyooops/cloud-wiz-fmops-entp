@@ -1,0 +1,17 @@
+{  
+    "name": "cloud-wiz-fmops",  
+    "version": "0.0.1",  
+    "private": true,  
+    "scripts": {  
+        "create-venv": "python -m venv venv",  
+        "install-backend": "venv\\Scripts\\activate && pip install -r src/backend/requirements.txt",  
+        "start-backend": "venv\\Scripts\\activate && cd src/backend && uvicorn --factory app.main:create_app --log-level debug --reload --loop asyncio",  
+        "install-frontend": "cd src/frontend && npm install",  
+        "start-frontend": "cd src/frontend && npm run start:all",  
+        "install": "npm run create-venv && npm run install-backend && npm run install-frontend",  
+        "start": "concurrently \"npm run start-backend\" \"npm run start-frontend\""  
+    },  
+    "devDependencies": {  
+        "concurrently": "^6.2.1"  
+    }  
+}  

@@ -1,0 +1,100 @@
+{
+  "resultCode": 200,
+  "resultMsg": "success",
+  "resultData": {
+    "category_list": [
+      {
+        "deploy_code": "CW0100000000",
+        "deploy_name": "Infrastructure as Code",
+        "deploy_grp_code": "CW0000000000",
+        "deploy_node": "1",
+        "deploy_order": "1"
+      },
+      {
+        "deploy_code": "CW0101000000",
+        "deploy_name": "Authenticate",
+        "deploy_grp_code": "CW0100000000",
+        "deploy_node": "2",
+        "deploy_order": "1"
+      },
+      {
+        "deploy_code": "CW0101010000",
+        "deploy_name": "IAM",
+        "deploy_grp_code": "CW0101000000",
+        "deploy_node": "3",
+        "deploy_order": "1"
+      },
+      {
+        "deploy_code": "CW0101010100",
+        "deploy_name": "User Groups",
+        "deploy_grp_code": "CW0101010000",
+        "deploy_node": "4",
+        "deploy_order": "1"
+      },
+      {
+        "deploy_code": "CW0101010200",
+        "deploy_name": "Users",
+        "deploy_grp_code": "CW0101010000",
+        "deploy_node": "4",
+        "deploy_order": "2"
+      },
+      {
+        "deploy_code": "CW0101010300",
+        "deploy_name": "Roles",
+        "deploy_grp_code": "CW0101010000",
+        "deploy_node": "4",
+        "deploy_order": "3"
+      },
+      {
+        "deploy_code": "CW0101010400",
+        "deploy_name": "Policies",
+        "deploy_grp_code": "CW0101010000",
+        "deploy_node": "4",
+        "deploy_order": "4"
+      },
+      {
+        "deploy_code": "CW0101010500",
+        "deploy_name": "Identity Providers",
+        "deploy_grp_code": "CW0101010000",
+        "deploy_node": "4",
+        "deploy_order": "5"
+      },
+      {
+        "deploy_code": "CW0102000000",
+        "deploy_name": "Network",
+        "deploy_grp_code": "CW0101010000",
+        "deploy_node": "2",
+        "deploy_order": "2"
+      },
+      {
+        "deploy_code": "CW0102010000",
+        "deploy_name": "VPCs",
+        "deploy_grp_code": "CW0102000000",
+        "deploy_node": "3",
+        "deploy_order": "1"
+      },
+      {
+        "deploy_code": "CW0102010100",
+        "deploy_name": "VPC",
+        "deploy_grp_code": "CW0102010000",
+        "deploy_node": "4",
+        "deploy_order": "1"
+      },
+      {
+        "deploy_code": "CW0102010200",
+        "deploy_name": "Subnets",
+        "deploy_grp_code": "CW0102010000",
+        "deploy_node": "4",
+        "deploy_order": "2"
+      },
+      {
+        "deploy_code": "CW0102010300",
+        "deploy_name": "RouteTables",
+        "deploy_grp_code": "CW0102010000",
+        "deploy_node": "4",
+        "deploy_order": "3"
+      }
+    ]
+  },
+  "timestamp": "2023-01-27T08:28:53.625Z"
+}

@@ -1,0 +1,145 @@
+/* ==========================================================================
+  37. COLOR SCHEME - PINK
+========================================================================== */
+.scheme-pink .go-to-top {
+  background-color: #f74780;
+}
+.scheme-pink .tab-list .tab-link.current {
+  background-color: #f74780;
+  border: 2px solid #f74780;
+  color: #fff;
+}
+.scheme-pink .bg--theme {
+  background-color: #f74780;
+}
+.scheme-pink .shape--blue-400:after {
+  background-color: #f74780;
+}
+.scheme-pink .btn--theme {
+  color: #fff !important;
+  border-color: #f74780 !important;
+  background-color: #f74780 !important;
+}
+.scheme-pink .hover--theme:hover {
+  color: #fff !important;
+  border-color: #e73971 !important;
+  background-color: #e73971 !important;
+}
+.scheme-pink .white-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #e73971 !important;
+  background-color: #e73971 !important;
+}
+.scheme-pink .black-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #e73971 !important;
+  background-color: #e73971 !important;
+}
+.scheme-pink .theme--dark .white-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #e73971 !important;
+  background-color: #e73971 !important;
+}
+.scheme-pink .theme--dark .white-scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #e73971 !important;
+  background-color: #e73971 !important;
+}
+.scheme-pink .color--theme {
+  color: #f74780 !important;
+}
+.scheme-pink .color--theme h1 {
+  color: #f74780 !important;
+}
+.scheme-pink .color--theme h2 {
+  color: #f74780 !important;
+}
+.scheme-pink .color--theme h3 {
+  color: #f74780 !important;
+}
+.scheme-pink .color--theme h4 {
+  color: #f74780 !important;
+}
+.scheme-pink .color--theme h5 {
+  color: #f74780 !important;
+}
+.scheme-pink .color--theme h6 {
+  color: #f74780 !important;
+}
+.scheme-pink .color--theme p {
+  color: #f74780 !important;
+}
+.scheme-pink .color--theme a {
+  color: #f74780 !important;
+}
+.scheme-pink .color--theme li {
+  color: #f74780 !important;
+}
+.scheme-pink .color--theme i {
+  color: #f74780 !important;
+}
+.scheme-pink .color--theme span {
+  color: #f74780 !important;
+}
+.scheme-pink .color--white .color--theme {
+  color: #f74780 !important;
+}
+.scheme-pink .loading--theme .loader {
+  border-color: transparent #f74780;
+}
+.scheme-pink .loading--theme .loader::after {
+  border-color: transparent rgba(247, 71, 128, 0.15);
+}
+.scheme-pink .nav-theme .sm-info {
+  background-color: #f74780;
+}
+.scheme-pink .wsmenu > .wsmenu-list.nav-theme > li > ul.sub-menu > li > a:hover {
+  color: #f74780 !important;
+}
+.scheme-pink .wsmenu > .wsmenu-list.nav-theme > li > .wsmegamenu.w-75 ul.link-list > li > a:hover {
+  color: #f74780 !important;
+}
+.scheme-pink .wsmenu > .wsmenu-list.nav-theme > li > .wsmegamenu.halfmenu ul.link-list > li > a:hover {
+  color: #f74780 !important;
+}
+.scheme-pink .hero-section .quick-form .form-control:focus {
+  border-color: #f74780;
+}
+.scheme-pink .cbox-2:hover .cbox-2-ico.bg--theme {
+  color: #f74780;
+  border-color: #f74780;
+}
+.scheme-pink .tabs-1.tabs--theme {
+  color: #f74780;
+  border-color: #f74780;
+}
+.scheme-pink .tabs-1.tabs--theme li.current:hover {
+  color: #f74780;
+  border-color: #f74780;
+}
+.scheme-pink .faqs-section .tabs--theme .tabs-1 li.current {
+  background-color: #f74780;
+  border-color: #f74780 !important;
+}
+.scheme-pink .faqs-section .tabs--theme .tabs-1 li.current:hover {
+  background-color: #f74780;
+  border-color: #f74780 !important;
+}
+.scheme-pink .switch-wrap input:checked + .switcher.switcher--theme {
+  background-color: #f74780;
+  border-color: #f74780;
+}
+.scheme-pink .shape-ico.color--theme path {
+  fill: #feecf2;
+  fill: #feecf2;
+  fill: #feecf2;
+}
+.scheme-pink .newsletter-section .form-control:focus {
+  background-color: #fff;
+  border-color: #353f4f;
+}
+.scheme-pink .theme-pagination .page-item.active .page-link {
+  color: #fff !important;
+  background-color: #f74780;
+  border: 2px solid #f74780;
+}/*# sourceMappingURL=pink.css.map */

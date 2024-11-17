@@ -1,0 +1,80 @@
+name: Deploy Nuxt 3 App to S3
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    paths:
+      - 'src/frontend/**'
+      
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout 
+
+jobs:
+  build-and-upload-to-s3:
+    runs-on: ubuntu-latest
+    env:
+      NODE_OPTIONS: --max-old-space-size=4096
+      AWS_S3_BUCKET_BASE: ${{ secrets.AWS_S3_BUCKET_BASE }}
+      AWS_S3_BUCKET_MANAGEMENT: ${{ secrets.AWS_S3_BUCKET_MANAGEMENT }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+          role-session-name: s3RoleSession
+          aws-region: ${{ secrets.AWS_S3_REGION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.9.0
+
+      - name: Create .env file
+        run: |
+          echo "VITE_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> src/frontend/apps/cloud-wiz-management/.env
+
+      - name: Install dependencies and build Nuxt 3 app
+        working-directory: src/frontend
+        run: |
+            npm install
+            npm run build:generate
+
+      - name: Empty S3 Bucket - base
+        run: aws s3 rm s3://$AWS_S3_BUCKET_BASE/ --recursive
+
+      - name: Upload to S3 - base
+        run: aws s3 cp ./src/frontend/apps/cloud-wiz-base/.output/public s3://$AWS_S3_BUCKET_BASE/ --recursive
+      
+      - name: Empty S3 Bucket - management
+        run: aws s3 rm s3://$AWS_S3_BUCKET_MANAGEMENT/ --recursive
+
+      - name: Upload to S3 - management
+        run: aws s3 cp ./src/frontend/apps/cloud-wiz-management/.output/public s3://$AWS_S3_BUCKET_MANAGEMENT/ --recursive
+
+  invalidate-cloudfront-for-deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-upload-to-s3
+    env:
+      AWS_CLOUDFRONT_DISTRIBUTION_BASE: ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_BASE }}
+      AWS_CLOUDFRONT_DISTRIBUTION_MANAGEMENT: ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_MANAGEMENT }}
+
+    steps:
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+          role-session-name: cloudfrontRoleSession
+          aws-region: ${{ secrets.AWS_S3_REGION }}
+
+      - name: invalidate cloudfront entrypoint (index.html) - BASE
+        run: aws cloudfront create-invalidation --distribution-id $AWS_CLOUDFRONT_DISTRIBUTION_BASE --paths "/index.html"
+
+      - name: invalidate cloudfront entrypoint (index.html) - MANAGEMENT
+        run: aws cloudfront create-invalidation --distribution-id $AWS_CLOUDFRONT_DISTRIBUTION_MANAGEMENT --paths "/index.html"

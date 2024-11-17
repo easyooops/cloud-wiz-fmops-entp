@@ -1,0 +1,145 @@
+/* ==========================================================================
+  37. COLOR SCHEME - BLUE
+========================================================================== */
+.scheme-blue .go-to-top {
+  background-color: #1680fb;
+}
+.scheme-blue .tab-list .tab-link.current {
+  background-color: #1680fb;
+  border: 2px solid #1680fb;
+  color: #fff;
+}
+.scheme-blue .bg--theme {
+  background-color: #1680fb;
+}
+.scheme-blue .shape--blue-400:after {
+  background-color: #1680fb;
+}
+.scheme-blue .btn--theme {
+  color: #fff !important;
+  border-color: #1680fb !important;
+  background-color: #1680fb !important;
+}
+.scheme-blue .hover--theme:hover {
+  color: #fff !important;
+  border-color: #185abd !important;
+  background-color: #185abd !important;
+}
+.scheme-blue .white-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #185abd !important;
+  background-color: #185abd !important;
+}
+.scheme-blue .black-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #185abd !important;
+  background-color: #185abd !important;
+}
+.scheme-blue .theme--dark .white-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #185abd !important;
+  background-color: #185abd !important;
+}
+.scheme-blue .theme--dark .white-scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #185abd !important;
+  background-color: #185abd !important;
+}
+.scheme-blue .color--theme {
+  color: #1680fb !important;
+}
+.scheme-blue .color--theme h1 {
+  color: #1680fb !important;
+}
+.scheme-blue .color--theme h2 {
+  color: #1680fb !important;
+}
+.scheme-blue .color--theme h3 {
+  color: #1680fb !important;
+}
+.scheme-blue .color--theme h4 {
+  color: #1680fb !important;
+}
+.scheme-blue .color--theme h5 {
+  color: #1680fb !important;
+}
+.scheme-blue .color--theme h6 {
+  color: #1680fb !important;
+}
+.scheme-blue .color--theme p {
+  color: #1680fb !important;
+}
+.scheme-blue .color--theme a {
+  color: #1680fb !important;
+}
+.scheme-blue .color--theme li {
+  color: #1680fb !important;
+}
+.scheme-blue .color--theme i {
+  color: #1680fb !important;
+}
+.scheme-blue .color--theme span {
+  color: #1680fb !important;
+}
+.scheme-blue .color--white .color--theme {
+  color: #1680fb !important;
+}
+.scheme-blue .loading--theme .loader {
+  border-color: transparent #1680fb;
+}
+.scheme-blue .loading--theme .loader::after {
+  border-color: transparent rgba(247, 71, 128, 0.15);
+}
+.scheme-blue .nav-theme .sm-info {
+  background-color: #1680fb;
+}
+.scheme-blue .wsmenu > .wsmenu-list.nav-theme > li > ul.sub-menu > li > a:hover {
+  color: #1680fb !important;
+}
+.scheme-blue .wsmenu > .wsmenu-list.nav-theme > li > .wsmegamenu.w-75 ul.link-list > li > a:hover {
+  color: #1680fb !important;
+}
+.scheme-blue .wsmenu > .wsmenu-list.nav-theme > li > .wsmegamenu.halfmenu ul.link-list > li > a:hover {
+  color: #1680fb !important;
+}
+.scheme-blue .hero-section .quick-form .form-control:focus {
+  border-color: #1680fb;
+}
+.scheme-blue .cbox-2:hover .cbox-2-ico.bg--theme {
+  color: #1680fb;
+  border-color: #1680fb;
+}
+.scheme-blue .tabs-1.tabs--theme {
+  color: #1680fb;
+  border-color: #1680fb;
+}
+.scheme-blue .tabs-1.tabs--theme li.current:hover {
+  color: #1680fb;
+  border-color: #1680fb;
+}
+.scheme-blue .faqs-section .tabs--theme .tabs-1 li.current {
+  background-color: #1680fb;
+  border-color: #1680fb !important;
+}
+.scheme-blue .faqs-section .tabs--theme .tabs-1 li.current:hover {
+  background-color: #1680fb;
+  border-color: #1680fb !important;
+}
+.scheme-blue .switch-wrap input:checked + .switcher.switcher--theme {
+  background-color: #1680fb;
+  border-color: #1680fb;
+}
+.scheme-blue .shape-ico.color--theme path {
+  fill: #feecf2;
+  fill: #feecf2;
+  fill: #feecf2;
+}
+.scheme-blue .newsletter-section .form-control:focus {
+  background-color: #fff;
+  border-color: #353f4f;
+}
+.scheme-blue .theme-pagination .page-item.active .page-link {
+  color: #fff !important;
+  background-color: #1680fb;
+  border: 2px solid #1680fb;
+}/*# sourceMappingURL=blue.css.map */

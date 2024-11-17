@@ -1,0 +1,80 @@
+{
+  "data": [
+    {
+      "headTitle1": "CLOUDWIZ AI FMOPS",
+      "headTitle2": "CLOUDWIZ AI FMOPS",
+      "type": "headtitle"
+    },
+    {
+      "path": "/",
+      "title": "Monitoring",
+      "icon": "stroke-home",
+      "iconf":"fill-home",
+      "type": "link",
+      "active": false
+    },
+    {
+      "title": "Agents",
+      "icon": "stroke-project",
+      "iconf":"fill-project",
+      "type": "sub",
+      "badgeType": "light-primary",
+      "badgeValue": "2",
+      "active": false,
+      "children": [
+        {
+          "path": "/agent/list",
+          "title": "Builder",
+          "type": "link",
+          "active":false
+        },
+        {
+          "path": "/agent/compare",
+          "title": "Compare",
+          "type": "link",
+          "active":false
+        }
+      ]
+    },
+    {
+      "path": "/provider/list",
+      "title": "Providers",
+      "icon": "stroke-ui-kits",
+      "iconf":"fill-ui-kits",
+      "type": "link",
+      "active": false
+    },
+    {
+      "path": "/storage/list",
+      "title": "Storage",
+      "icon": "stroke-file",
+      "iconf":"fill-file",
+      "type": "link",
+      "active": false
+    },
+    {
+      "path": "/processing/list",
+      "title": "Processing",
+      "icon": "stroke-task",
+      "iconf":"fill-task",
+      "type": "link",
+      "active": false
+    },
+    {
+      "path": "/opinion/create",
+      "title": "Opinions",
+      "icon": "stroke-faq",
+      "iconf":"fill-faq",
+      "type": "link",
+      "active": false
+    },
+    {
+      "path": "/tutorial",
+      "title": "Tutorial",
+      "icon": "stroke-faq",
+      "iconf":"fill-faq",
+      "type": "link",
+      "active": false
+    }
+  ]
+}

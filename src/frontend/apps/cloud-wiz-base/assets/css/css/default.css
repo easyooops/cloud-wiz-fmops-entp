@@ -1,0 +1,166 @@
+/* ==========================================================================
+37. COLOR SCHEME - PINK
+========================================================================== */
+.go-to-top {
+  background-color: #f74780;
+}
+
+.tab-list .tab-link.current {
+  background-color: #f74780;
+  border: 2px solid #f74780;
+  color: #fff;
+}
+
+.bg--theme {
+  background-color: #f74780;
+}
+
+.shape--blue-400:after {
+  background-color: #f74780;
+}
+
+.btn--theme {
+  color: #fff !important;
+  border-color: #f74780 !important;
+  background-color: #f74780 !important;
+}
+
+.hover--theme:hover {
+  color: #fff !important;
+  border-color: #e73971 !important;
+  background-color: #e73971 !important;
+}
+
+.white-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #e73971 !important;
+  background-color: #e73971 !important;
+}
+
+.black-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #e73971 !important;
+  background-color: #e73971 !important;
+}
+
+.theme--dark .white-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #e73971 !important;
+  background-color: #e73971 !important;
+}
+.theme--dark .white-scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #e73971 !important;
+  background-color: #e73971 !important;
+}
+
+.color--theme {
+  color: #f74780 !important;
+}
+.color--theme h1 {
+  color: #f74780 !important;
+}
+.color--theme h2 {
+  color: #f74780 !important;
+}
+.color--theme h3 {
+  color: #f74780 !important;
+}
+.color--theme h4 {
+  color: #f74780 !important;
+}
+.color--theme h5 {
+  color: #f74780 !important;
+}
+.color--theme h6 {
+  color: #f74780 !important;
+}
+.color--theme p {
+  color: #f74780 !important;
+}
+.color--theme a {
+  color: #f74780 !important;
+}
+.color--theme li {
+  color: #f74780 !important;
+}
+.color--theme i {
+  color: #f74780 !important;
+}
+.color--theme span {
+  color: #f74780 !important;
+}
+
+.color--white .color--theme {
+  color: #f74780 !important;
+}
+
+.loading--theme .loader {
+  border-color: transparent #f74780;
+}
+.loading--theme .loader::after {
+  border-color: transparent rgba(247, 71, 128, 0.15);
+}
+
+.nav-theme .sm-info {
+  background-color: #f74780;
+}
+
+.wsmenu > .wsmenu-list.nav-theme > li > ul.sub-menu > li > a:hover {
+  color: #f74780 !important;
+}
+.wsmenu > .wsmenu-list.nav-theme > li > .wsmegamenu.w-75 ul.link-list > li > a:hover {
+  color: #f74780 !important;
+}
+.wsmenu > .wsmenu-list.nav-theme > li > .wsmegamenu.halfmenu ul.link-list > li > a:hover {
+  color: #f74780 !important;
+}
+
+.hero-section .quick-form .form-control:focus {
+  border-color: #f74780;
+}
+
+.cbox-2:hover .cbox-2-ico.bg--theme {
+  color: #f74780;
+  border-color: #f74780;
+}
+
+.tabs-1.tabs--theme {
+  color: #f74780;
+  border-color: #f74780;
+}
+.tabs-1.tabs--theme li.current:hover {
+  color: #f74780;
+  border-color: #f74780;
+}
+
+.faqs-section .tabs--theme .tabs-1 li.current {
+  background-color: #f74780;
+  border-color: #f74780 !important;
+}
+.faqs-section .tabs--theme .tabs-1 li.current:hover {
+  background-color: #f74780;
+  border-color: #f74780 !important;
+}
+
+.switch-wrap input:checked + .switcher.switcher--theme {
+  background-color: #f74780;
+  border-color: #f74780;
+}
+
+.shape-ico.color--theme path {
+  fill: #feecf2;
+  fill: #feecf2;
+  fill: #feecf2;
+}
+
+.newsletter-section .form-control:focus {
+  background-color: #fff;
+  border-color: #353f4f;
+}
+
+.theme-pagination .page-item.active .page-link {
+  color: #fff !important;
+  background-color: #f74780;
+  border: 2px solid #f74780;
+}/*# sourceMappingURL=default.css.map */

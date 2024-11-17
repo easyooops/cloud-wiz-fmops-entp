@@ -1,0 +1,83 @@
+[
+  {
+    "id": 1,
+    "name": "유수영",
+    "username": "Suyeong Yoo",
+    "email": "suyeong.yoo@bespinglobal.com",
+    "image": "/assets/images/wiz/team/1.jpg",
+    "position" : "Cloud Manager/Cloud Director/Cloud Consultant",
+    "tags" : ["#클라우드전문가", "#대장", "#백앤드", "#프런트앤드", "#자격증마스터", "#MSA", "#쿠버네티스"]
+  },
+  {
+    "id": 2,
+    "name": "구동민",
+    "username": "Dongmin Koo",
+    "email": "dongmin.koo@bespinglobal.com",
+    "image" : "/assets/images/wiz/team/2.jpg",
+    "position" : "Cloud Solutions Architect/Cloud DevOps Architect",
+    "tags" : ["#클라우드전문가", "#귀여움", "#사업기획", "#프런트앤드", "#백앤드"]
+  },
+  {
+    "id": 3,
+    "name": "김하늘",
+    "username": "Haneul Kim",
+    "email": "haneul.kim@bespinglobal.com",
+    "image" : "/assets/images/wiz/team/3.jpg",
+    "position" : "Cloud DevOps Architect/Cloud Developer",
+    "tags" : ["#클라우드전문가", "#반반차", "#백앤드"]
+  },
+  {
+    "id": 4,
+    "name": "안성진",
+    "username": "Seongjin An",
+    "email": "seongjin.an@bespinglobal.com",
+    "image" : "/assets/images/wiz/team/4.jpg",
+    "position" : "Cloud DevOps Architect/Cloud Developer",
+    "tags" : ["#클라우드전문가", "#열정", "#데이터분석", "#파이프라인", "#백앤드", "#프런트앤드"]
+  },
+  {
+    "id": 5,
+    "name": "이규민",
+    "username": "Gyumin Lee",
+    "email": "gyumin.lee@bespinglobal.com",
+    "image" : "/assets/images/wiz/team/5.jpg",
+    "position" : "Senior Cloud Architect/Cloud Security Engineer",
+    "tags" : ["#클라우드전문가", "#젋은꼰대", "#클라우드천재", "#모범생", "#DevOps", "#백앤드", "#프런트앤드"]
+  },
+  {
+    "id": 6,
+    "name": "이재호",
+    "username": "Jaeho Lee",
+    "email": "jaeho.lee@bespinglobal.com",
+    "image" : "/assets/images/wiz/team/6.jpg",
+    "position" : "Senior Cloud Architect/Cloud DevOps Architect",
+    "tags" : ["#클라우드전문가", "#개발천재", "#다잘함", "#백앤드", "#프런트앤드"]
+  },
+  {
+    "id": 7,
+    "name": "이형원",
+    "username": "Hyeongwon Lee",
+    "email": "hyeongwon.lee@bespinglobal.com",
+    "image" : "/assets/images/wiz/team/7.jpg",
+    "position" : "Cloud Solutions Architect/Cloud AI Engineer",
+    "tags" : ["#클라우드전문가", "#야구선수", "#백앤드"]
+  },
+  {
+    "id": 8,
+    "name": "장선웅",
+    "username": "Sunung Chang",
+    "email": "sunung.chang@bespinglobal.com",
+    "image" : "/assets/images/wiz/team/8.jpg",
+    "position" : "Cloud DevOps Architect/Cloud Developer",
+    "tags" : ["#클라우드전문가", "#조교", "#백앤드"]
+  },
+  {
+    "id": 9,
+    "name": "전병규",
+    "username": "Byeonggyu Jeon",
+    "email": "byeonggyu.jeon@bespinglobal.com",
+    "image" : "/assets/images/wiz/team/9.jpg",
+    "position" : "Cloud Data Scientist/Cloud AI Engineer",
+    "tags" : ["#클라우드전문가", "#파이프라인", "#DevOps", "#백앤드"]
+  }
+]

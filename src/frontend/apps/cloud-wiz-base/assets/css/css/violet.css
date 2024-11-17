@@ -1,0 +1,145 @@
+/* ==========================================================================
+  37. COLOR SCHEME - VIOLET
+========================================================================== */
+.scheme-violet .go-to-top {
+  background-color: #be6cbe;
+}
+.scheme-violet .tab-list .tab-link.current {
+  background-color: #be6cbe;
+  border: 2px solid #be6cbe;
+  color: #fff;
+}
+.scheme-violet .bg--theme {
+  background-color: #be6cbe;
+}
+.scheme-violet .shape--blue-400:after {
+  background-color: #be6cbe;
+}
+.scheme-violet .btn--theme {
+  color: #fff !important;
+  border-color: #be6cbe !important;
+  background-color: #be6cbe !important;
+}
+.scheme-violet .hover--theme:hover {
+  color: #fff !important;
+  border-color: #a959a9 !important;
+  background-color: #a959a9 !important;
+}
+.scheme-violet .white-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #a959a9 !important;
+  background-color: #a959a9 !important;
+}
+.scheme-violet .black-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #a959a9 !important;
+  background-color: #a959a9 !important;
+}
+.scheme-violet .theme--dark .white-scroll .scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #a959a9 !important;
+  background-color: #a959a9 !important;
+}
+.scheme-violet .theme--dark .white-scroll .hover--theme:hover {
+  color: #fff !important;
+  border-color: #a959a9 !important;
+  background-color: #a959a9 !important;
+}
+.scheme-violet .color--theme {
+  color: #be6cbe !important;
+}
+.scheme-violet .color--theme h1 {
+  color: #be6cbe !important;
+}
+.scheme-violet .color--theme h2 {
+  color: #be6cbe !important;
+}
+.scheme-violet .color--theme h3 {
+  color: #be6cbe !important;
+}
+.scheme-violet .color--theme h4 {
+  color: #be6cbe !important;
+}
+.scheme-violet .color--theme h5 {
+  color: #be6cbe !important;
+}
+.scheme-violet .color--theme h6 {
+  color: #be6cbe !important;
+}
+.scheme-violet .color--theme p {
+  color: #be6cbe !important;
+}
+.scheme-violet .color--theme a {
+  color: #be6cbe !important;
+}
+.scheme-violet .color--theme li {
+  color: #be6cbe !important;
+}
+.scheme-violet .color--theme i {
+  color: #be6cbe !important;
+}
+.scheme-violet .color--theme span {
+  color: #be6cbe !important;
+}
+.scheme-violet .color--white .color--theme {
+  color: #be6cbe !important;
+}
+.scheme-violet .loading--theme .loader {
+  border-color: transparent #be6cbe;
+}
+.scheme-violet .loading--theme .loader::after {
+  border-color: transparent rgba(247, 71, 128, 0.15);
+}
+.scheme-violet .nav-theme .sm-info {
+  background-color: #be6cbe;
+}
+.scheme-violet .wsmenu > .wsmenu-list.nav-theme > li > ul.sub-menu > li > a:hover {
+  color: #be6cbe !important;
+}
+.scheme-violet .wsmenu > .wsmenu-list.nav-theme > li > .wsmegamenu.w-75 ul.link-list > li > a:hover {
+  color: #be6cbe !important;
+}
+.scheme-violet .wsmenu > .wsmenu-list.nav-theme > li > .wsmegamenu.halfmenu ul.link-list > li > a:hover {
+  color: #be6cbe !important;
+}
+.scheme-violet .hero-section .quick-form .form-control:focus {
+  border-color: #be6cbe;
+}
+.scheme-violet .cbox-2:hover .cbox-2-ico.bg--theme {
+  color: #be6cbe;
+  border-color: #be6cbe;
+}
+.scheme-violet .tabs-1.tabs--theme {
+  color: #be6cbe;
+  border-color: #be6cbe;
+}
+.scheme-violet .tabs-1.tabs--theme li.current:hover {
+  color: #be6cbe;
+  border-color: #be6cbe;
+}
+.scheme-violet .faqs-section .tabs--theme .tabs-1 li.current {
+  background-color: #be6cbe;
+  border-color: #be6cbe !important;
+}
+.scheme-violet .faqs-section .tabs--theme .tabs-1 li.current:hover {
+  background-color: #be6cbe;
+  border-color: #be6cbe !important;
+}
+.scheme-violet .switch-wrap input:checked + .switcher.switcher--theme {
+  background-color: #be6cbe;
+  border-color: #be6cbe;
+}
+.scheme-violet .shape-ico.color--theme path {
+  fill: #feecf2;
+  fill: #feecf2;
+  fill: #feecf2;
+}
+.scheme-violet .newsletter-section .form-control:focus {
+  background-color: #fff;
+  border-color: #353f4f;
+}
+.scheme-violet .theme-pagination .page-item.active .page-link {
+  color: #fff !important;
+  background-color: #be6cbe;
+  border: 2px solid #be6cbe;
+}/*# sourceMappingURL=violet.css.map */

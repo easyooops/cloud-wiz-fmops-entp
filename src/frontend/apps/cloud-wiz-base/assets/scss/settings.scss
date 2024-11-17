@@ -1,0 +1,6 @@
+@forward 'vuetify/settings' with (
+  $button-color: red,
+  $button-font-weight: 900,
+  $button-border: 10px,
+  $button-font-size: 10px
+);

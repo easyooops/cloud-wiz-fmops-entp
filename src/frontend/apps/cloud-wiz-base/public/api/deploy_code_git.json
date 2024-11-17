@@ -1,0 +1,66 @@
+{
+  "resultCode": 200,
+  "resultMsg": "success",
+  "resultData": {
+    "deploy_code": "CW0101010100",
+    "deploy_data_list": [
+      {
+        "deploy_data_no": "1",
+        "deploy_data_file_tp": "C",
+        "deploy_data_code": "aws iam list-groups",
+        "deploy_data_desc": "사용자 그룹 목록을 조회할 경우 사용하시기 바랍니다.",
+        "deploy_data_order": "1",
+        "deploy_data_param": []
+      },
+      {
+        "deploy_data_no": "2",
+        "deploy_data_file_tp": "C",
+        "deploy_data_code": "aws iam get-group [[IAM_GROUP_NM]] \n    --group-name [[IAM_GROUP_NM]] \n aws iam get-group \n    --group-name [[IAM_GROUP_NM2]]",
+        "deploy_data_desc": "사용자 그룹에 대한 상세 정보가 필요한 경우 사용하시기 바랍니다.",
+        "deploy_data_order": "2",
+        "deploy_data_param": [
+          {
+            "param_no": "1",
+            "param_code": "IAM_GROUP_NM",
+            "param_name": "Group Name",
+            "param_tip": "Please enter your Group Name",
+            "param_temp": "CloudWiz_Admin",
+            "param_tp": "T",
+            "param_order": "1",
+            "comm_grp_code": null
+          },
+          {
+            "param_no": "2",
+            "param_code": "IAM_GROUP_NM2",
+            "param_name": "Group Name",
+            "param_tip": "Please enter your Group Name 222",
+            "param_temp": "CloudWiz_Front",
+            "param_tp": "T",
+            "param_order": "1",
+            "comm_grp_code": null
+          }
+        ]
+      },
+      {
+        "deploy_data_no": "3",
+        "deploy_data_file_tp": "C",
+        "deploy_data_code": "deploy-ec2:\n    runs-on: code-linux\n    needs: [build-and-upload-s3, approvement]\n    environment: release\n    env:\n      AWS_REGION: ${{secrets.AWS_REGION}}\n      S3_BUCKET_NAME: ${{secrets.S3_BUCKET_NAME}}\n      S3_BUCKET_LOCATION: ${{secrets.S3_BUCKET_LOCATION}}\n      BUILD_FILE_NAME: ${{secrets.BUILD_FILE_NAME}}\n      APPLICATION_NAME: ${{secrets.APPLICATION_NAME}}\n      DEPLOYMENT_GROUP_NAME: ${{secrets.DEPLOYMENT_GROUP_NAME}}\n      DEPLOYMENT_GROUP_NAME_BATCH: ${{secrets.DEPLOYMENT_GROUP_NAME_BATCH}}\n      REVISION_DATE: ${{needs.build-and-upload-s3.outputs.revision_date}}\n    permissions:\n      id-token: write   # This is required for requesting the JWT\n      contents: read    # This is required for actions/checkout aws iam list-attached-group-policies \n    --group-name [[IAM_GROUP_NM]]",
+        "deploy_data_desc": "사용자 그룹에 연결 되어 있는 정책을 확인하는데 사용하시기 바랍니다.",
+        "deploy_data_order": "3",
+        "deploy_data_param": [
+          {
+            "param_no": "2",
+            "param_code": "IAM_GROUP_NM",
+            "param_name": "Group Name",
+            "param_tip": "Please enter your Group Name",
+            "param_temp": "CloudWiz_Admin",
+            "param_tp": "T",
+            "param_order": "1",
+            "comm_grp_code": null
+          }
+        ]
+      }
+    ]
+  },
+  "timestamp": "2023-01-27T08:28:53.625Z"
+}
