@@ -1,8 +1,6 @@
 import logging
 import os
 import shutil
-import chromadb
-from langchain_openai import OpenAIEmbeddings
 from app.components.VectorStore.Base import AbstractVectorStoreComponent
 from langchain_chroma import Chroma
 

@@ -1,6 +1,6 @@
 <template>
     <div>
-      <Breadcrumbs main="" title="Agent Create" />
+      <Breadcrumbs main="" title="Compare" />
       <div class="container-fluid">
         <div class="row">
             <mainAgentCompare />

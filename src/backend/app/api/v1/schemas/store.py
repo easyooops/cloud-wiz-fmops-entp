@@ -44,8 +44,6 @@ class StoreUpdate(BaseModel):
 
 class Vector(BaseModel):
     user_id: Optional[UUID] = None
-    embedding_provider_id: Optional[UUID] = None
-    embedding_model_id: Optional[UUID] = None
     storage_provider_id: Optional[UUID] = None
     storage_object_id: Optional[UUID] = None
     vector_db_provider_id: Optional[UUID] = None

@@ -36,7 +36,7 @@
                     <div class="project-box" @click="navigateToEdit(dataItem.store_id, dataItem.store_name)" @mouseover="onMouseOver" @mouseleave="onMouseLeave">
                       <span class="badge badge-primary">Public</span>
                         <h6>{{ dataItem.store_name }}</h6>
-                        <div class="d-flex mb-3"><img class="img-20 me-2 rounded-circle" :src="`/images/provider/${dataItem.provider_logo}`" alt="" data-original-title="" title="">
+                        <div class="d-flex mb-3"><img class="img-30 me-2 rounded-circle" :src="`/images/provider/${dataItem.provider_logo}`" alt="" data-original-title="" title="">
                             <div class="flex-grow-1 project-item-detail">
                                 <p>{{ dataItem.provider_company }}</p>
                             </div>
@@ -70,7 +70,7 @@
       data() {
         return {
           tab: [
-              { type: 'all', name: 'All', active: true, icon: 'target', id: 'top-all', label: 'all-tab' }
+              { type: 'all', name: 'ALL', active: true, icon: 'target', id: 'top-all', label: 'all-tab' }
           ],
           loading: false,
           userId: useAuthStore().userId

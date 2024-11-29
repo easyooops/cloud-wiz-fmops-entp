@@ -8,6 +8,7 @@ from app.api.v1.schemas.store import StoreCreate, StoreUpdate, StoreWithDirector
 from app.core.exception import internal_server_error
 from app.service.store.model import Store
 from app.service.auth.service import get_current_user
+from app.service.embedding.service import EmbeddingService
 
 router = APIRouter()
 
@@ -106,8 +107,11 @@ def upload_file_to_store(
     # token: str = Depends(get_current_user) 
 ):
     try:
-        service = StoreService(session)
-        service.upload_file_to_store(user_id, store_id, file)
+        # 1. Storage File Upload
+        StoreService(session).upload_file_to_store(user_id, store_id, file)
+        # 2. Embedding
+        EmbeddingService(session).create_indexing(user_id, store_id)
+        
         return {"message": "File uploaded successfully"}
     except Exception as e:
         raise internal_server_error(e)

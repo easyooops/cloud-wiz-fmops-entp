@@ -6,10 +6,9 @@ class ServiceType(Enum):
     SQLALCHEMY = "sqlalchemy"
     MYSQL = "mysql"
     SQLITE = "sqlite"
-    S3 = "s3"
-    GOOGLE_DRIVE = "google_drive"
-    NOTION = "notion"
-    GITHUB = "github"
+    S3 = "s3"  
+    AZURE_STORAGE = "azure_storage"
+    GCS = "gcs"
 
 class Service(ABC):
     @abstractmethod

@@ -36,7 +36,7 @@
                   <div class="project-box" @click="navigateToEdit(dataItem.credential_id)" @mouseover="onMouseOver" @mouseleave="onMouseLeave">
                     <span class="badge" :class="getBadgeClass(dataItem.provider_type)">{{ getBadgeLabel(dataItem.provider_type) }}</span>
                       <h6>{{ dataItem.credential_name }}</h6>
-                      <div class="d-flex mb-3"><img class="img-20 me-2 rounded-circle" :src="`/images/provider/${dataItem.provider_logo}`" alt="" data-original-title="" title="">
+                      <div class="d-flex mb-3"><img class="img-30 me-2 rounded-circle" :src="`/images/provider/${dataItem.provider_logo}`" alt="" data-original-title="" title="">
                           <div class="flex-grow-1 project-box-item">
                               <p>{{ dataItem.provider_company }}</p>
                           </div>

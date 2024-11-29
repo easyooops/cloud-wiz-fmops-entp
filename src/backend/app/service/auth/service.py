@@ -24,7 +24,7 @@ class AuthService:
     GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
     AUTH_SECRET_KEY = os.getenv("AUTH_SECRET_KEY")
     ALGORITHM = "HS256"                                 # 사용할 알고리즘
-    ACCESS_TOKEN_EXPIRE_MINUTES = 30                    # 엑세스 토큰 유효 시간
+    ACCESS_TOKEN_EXPIRE_MINUTES = 30                    # 엑세스 토큰 유효 시간 (default 30분)
     REFRESH_TOKEN_EXPIRE_DAYS = 7
     GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
     GOOGLE_TOKEN_URI = os.getenv("GOOGLE_TOKEN_URI")
@@ -52,7 +52,7 @@ class AuthService:
         logging.info(f'Exchanging code for tokens with code: {code}')
 
         if AuthService.ENV == 'local':
-            redirect_uri = 'http://localhost:5006/google/callback'
+            redirect_uri = 'http://localhost:11006/google/callback'
         else:
             redirect_uri = 'https://management.cloudwiz-ai.com/google/callback'
 

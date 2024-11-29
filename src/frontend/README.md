@@ -20,8 +20,8 @@ Commands to run all apps at once
 npm run start:all
 ```
 > Local dev environment default URL:
-> - cloud-wiz-base: http://localhost:5005
-> - cloud-wiz-management: http://localhost:5006
+> - cloud-wiz-base: http://localhost:11005
+> - cloud-wiz-management: http://localhost:11006
 
 
 ## (💡 Additional description)

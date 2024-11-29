@@ -5,8 +5,8 @@
   "scripts": {
     
 
-    "start:base": "npx nx serve cloud-wiz-base --port 5005",
-    "start:mgmt": "npx nx serve cloud-wiz-management --port 5006",
+    "start:base": "npx nx serve cloud-wiz-base --port 11005",
+    "start:mgmt": "npx nx serve cloud-wiz-management --port 11006",
     "build:base": "npx nx run cloud-wiz-base:build",
     "build:mgmt": "npx nx run cloud-wiz-management:build",
 
