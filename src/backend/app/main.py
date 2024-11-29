@@ -15,9 +15,6 @@ from alembic.config import Config
 
 from app.core.config import settings
 from app.api import api_router
-from app.initial_data import init_db
-
-from ddtrace.llmobs import LLMObs
 
 from app.core.util.logging import LoggingConfigurator
 from app.core.factories import get_database
@@ -73,19 +70,9 @@ def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
     with Session(engine) as session:
-        # init_db(session)
         for _ in range(20):
             session.exec(text("SELECT 1"))
-        session.close()        
-
-def configure_datadog():
-    LLMObs.enable(
-        ml_app=os.getenv("DATADOG_ML_APP"),
-        api_key=os.getenv("DATADOG_API_KEY"),
-        site=os.getenv("DATADOG_SITE"),
-        agentless_enabled=True,
-        integrations_enabled=True,
-    )
+        session.close()
     
 def create_app():
     
@@ -125,8 +112,6 @@ def create_app():
 
     # logging process
     # LoggingConfigurator()
-    configure_datadog()
-    
     app.include_router(api_router, prefix=settings.API_V1_STR)
 
     @app.get("/health")

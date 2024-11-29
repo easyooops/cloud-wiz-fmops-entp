@@ -38,25 +38,38 @@ langchain_community
 langchain_openai
 langchain_aws
 langchain_core
+langchain-huggingface
+langchain-aws
+langchain-google-genai
+langchain-google-vertexai
+langchain-google-community
+langchain-openai
+langchain-chroma
+
 openai
 tiktoken
 tokencost
-langchain-huggingface
-snowflake-connector-python
-langchain-aws
-langchain-google-genai
+opensearch-py
 GitPython
+unstructured
 
-# chat
-langchain-openai
-langchain-google-genai
+# Google
+google-cloud-storage
+google-cloud-aiplatform
+google-cloud-discoveryengine
 
-# Vector store
-faiss-cpu
-langchain-chroma
-langchain-pinecone
-pinecone-client
-pinecone-notebooks
+# Azure
+azure-core
+azure-identity 
+azure-search-documents
+azure-storage-blob
+
+# For Windows  
+python-magic-bin; sys_platform == 'win32'  
+
+# For Unix (Linux, macOS, etc.)  
+python-magic; sys_platform != 'win32'
+
 
 #Document Loader
 pypdf
@@ -64,15 +77,9 @@ pandas
 docx2txt
 openpyxl
 
-# # Datadog
-ddtrace
-
 # Google
 google-auth
 google-auth-oauthlib
 google-auth-httplib2
 google-api-python-client
 requests
-
-# Notion
-notion-client

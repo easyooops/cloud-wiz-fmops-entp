@@ -15,12 +15,9 @@
                     </ul>
                 </div>
                 <div class="row">
-                    <div class="col">
-                        <button v-if="agentId" class="btn btn-outline-primary me-2" @click.prevent="createIndexing()">
-                            <vue-feather type="database" class="text-top"></vue-feather> Vector Indexing
-                        </button>                                            
+                    <div class="col">                                          
                         <button @click="saveAgent" class="btn btn-primary me-2">Save</button>
-                        <button v-if="agentId" @click="deleteAgent" class="btn btn-danger me-2">Delete</button>
+                        <button v-if="agentIdData" @click="deleteAgent" class="btn btn-danger me-2">Delete</button>
                         <router-link to="/agent/list" class="btn btn-secondary">Back to List</router-link>
                     </div>
                 </div>
@@ -73,28 +70,22 @@
                                 <div class="card">
                                     <div class="card-body">                                    
                                         <div class="row">
-                                            <div class="col-xl-4 mb-3">
-                                                <div class="col-form-label">Model Type *</div>
-                                                <select class="form-select form-control-primary" v-model="modelType">
-                                                    <option value="C">Chat</option>
-                                                    <option value="T">Text</option>
-                                                    <option value="I">Image</option>
-                                                </select>
+                                            <div class="media mb-3">
+                                                <label class="col-form-label m-r-10">Embedding Enable</label>
+                                                <div class="media-body text-end">
+                                                    <label class="switch">
+                                                        <input type="checkbox" v-model="embeddingEnabled"><span class="switch-state"></span>
+                                                    </label>
+                                                </div>
                                             </div>
-                                            <div class="col-xl-4 mb-3">
-                                                <div class="col-form-label">Provider *</div>
-                                                <select class="form-select form-control-primary" v-model="selectedProvider">
-                                                    <option value="" disabled hidden>Select Provider</option>
-                                                    <option v-for="provider in filteredProviders" :key="provider.credential_id" :value="provider.credential_id">{{ provider.credential_name }}</option>
+
+                                            <div class="mb-3" v-if="filteredObjects.length > 0" :class="{ 'disabled-card': !embeddingEnabled }">
+                                                <div class="col-form-label">Storage</div>
+                                                <select class="form-select form-control-primary" v-model="selectedObject">
+                                                    <option value="" disabled hidden>Select Object</option>
+                                                    <option v-for="object in filteredObjects" :key="object.store_id" :value="object.store_id">{{ object.store_name }}</option>
                                                 </select>
-                                            </div> 
-                                            <div class="col-xl-4 mb-3">
-                                                <div class="col-form-label">Foundation Model *</div>
-                                                <select class="form-select form-control-primary" v-model="selectedFoundationModel">
-                                                    <option value="" disabled hidden>Select Foundation Model</option>
-                                                    <option v-for="model in filteredModels" :key="model.model_id" :value="model.model_id">{{ model.model_name }}</option>
-                                                </select>
-                                            </div>                                             
+                                            </div>                                            
                                         </div>                                
                                     </div>
                                 </div> 
@@ -114,115 +105,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="card">
-                                    <div class="card-body"> 
-                                        <div class="mb-3">
-                                            <fieldset>
-                                                <label class="col-md-2 col-form-label sm-left-text" for="requestToken">Request Token Limit</label>
-                                                <div class="input-group col-md-9">
-                                                    <button type="button" class="btn btn-primary btn-square bootstrap-touchspin-down" @click="decrementRequestToken"><i class="fa fa-minus"></i></button>
-                                                    <input class="touchspin form-control" type="text" v-model="requestToken">
-                                                    <button type="button" class="btn btn-primary btn-square bootstrap-touchspin-up" @click="incrementRequestToken"><i class="fa fa-plus"></i></button>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="responseToken">Response Token Limit</label>
-                                            <fieldset>
-                                                <div class="input-group">
-                                                    <button type="button" class="btn btn-primary btn-square bootstrap-touchspin-down" @click="decrementResponseToken"><i class="fa fa-minus"></i></button>
-                                                    <input class="touchspin form-control" type="text" v-model="responseToken">
-                                                    <button type="button" class="btn btn-primary btn-square bootstrap-touchspin-up" @click="incrementResponseToken"><i class="fa fa-plus"></i></button>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                </div>
-                                                                      
+                                </div>                     
                             </div>
-                        </div>
-
-                        <!-- Embedding -->
-                        <div class="card-body" v-if="'1'==item.activeTab">
-                          <div class="form theme-form">
-                            <div class="card">
-                              <div class="card-body">
-                                <div class="media mb-3">
-                                  <label class="col-form-label m-r-10">Embedding Enable</label>
-                                  <div class="media-body text-end">
-                                    <label class="switch">
-                                      <input type="checkbox" v-model="embeddingEnabled"><span class="switch-state"></span>
-                                    </label>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="card" :class="{ 'disabled-card': !embeddingEnabled }">
-                              <div class="card-body">
-                                <div class="row">
-                                  <div class="col-xl-6 mb-3">
-                                    <div class="col-form-label">Embedding Provider *</div>
-                                    <select class="form-select form-control-primary" v-model="selectedEmbeddingProvider">
-                                      <option value="" disabled hidden>Select Embedding Provider</option>
-                                      <option v-for="provider in filteredEmbeddingProviders" :key="provider.credential_id" :value="provider.credential_id">{{ provider.credential_name }}</option>
-                                    </select>
-                                  </div>
-                                  <div class="col-xl-6 mb-3">
-                                    <div class="col-form-label">Embedding Model *</div>
-                                    <select class="form-select form-control-primary" v-model="selectedEmbeddingModel">
-                                      <option value="" disabled hidden>Select Embedding Model</option>
-                                      <option v-for="model in filteredEmbeddingModels" :key="model.model_id" :value="model.model_id">{{ model.model_name }}</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="card" :class="{ 'disabled-card': !embeddingEnabled }">
-                              <div class="card-body">
-                                <div class="mb-3">
-                                  <div class="col-form-label">Provider *</div>
-                                  <select class="form-select form-control-primary" v-model="selectedStorageProvider">
-                                    <option value="" disabled hidden>Select Storage Provider</option>
-                                    <option v-for="provider in filteredStorageProviders" :key="provider.credential_id" :value="provider.credential_id">{{ provider.credential_name }}</option>
-                                  </select>
-                                </div>
-                                <div class="mb-3" v-if="filteredObjects.length > 0">
-                                  <div class="col-form-label">Storage</div>
-                                  <select class="form-select form-control-primary" v-model="selectedObject">
-                                    <option value="" disabled hidden>Select Object</option>
-                                    <option v-for="object in filteredObjects" :key="object.store_id" :value="object.store_id">{{ object.store_name }}</option>
-                                  </select>
-                                </div>
-<!--                                <div class="mb-3">-->
-<!--                                  <div class="col-form-label">File</div>-->
-<!--                                  <select class="form-select form-control-primary" v-model="selectedFiles" >-->
-<!--                                    <option value="" disabled hidden="">Select file</option>-->
-<!--                                    <option v-for="file in filteredFiles" :key="file.key" :value="file.key">{{ getFileName(file.Key) }}</option>-->
-<!--                                  </select>-->
-<!--                                </div>-->
-                              </div>
-                            </div>
-
-                            <div class="card" :class="{ 'disabled-card': !embeddingEnabled }">
-                              <div class="card-body">
-                                <div class="mb-3">
-                                  <div class="col-form-label">Vector DB</div>
-                                  <select class="form-select form-control-primary" v-model="selectedVectorDB">
-                                    <option v-for="provider in filteredVectorDBProviders" :key="provider.credential_id" :value="provider.credential_id">{{ provider.credential_name }}</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-
-                          </div>
                         </div>
                         
                         <!-- Processing -->
-                        <div class="card-body" v-if="'2' == item.activeTab">
+                        <div class="card-body" v-if="'1' == item.activeTab">
                             <div class="form theme-form">
                                 <div class="card">
                                     <div class="card-body">
@@ -260,27 +148,14 @@
                             </div>
                         </div>
 
-                        <!-- Template -->
-                        <div class="card-body" v-if="'3' == item.activeTab">
+                        <!-- Context -->
+                        <div class="card-body" v-if="'2' == item.activeTab">
                             <div class="form theme-form">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="media mb-3">
-                                            <label class="col-form-label m-r-10">Template Enable</label>
-                                            <div class="media-body text-end">
-                                                <label class="switch">
-                                                    <input type="checkbox" v-model="templateEnabled"><span class="switch-state"></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card" :class="{ 'disabled-card': !templateEnabled }">
-                                    <div class="card-body">
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <label class="col-form-label"><h5>Template</h5></label>
+                                                <label class="col-form-label"><h5>Context</h5></label>
                                                 <textarea v-model="textareaTemplate" class="form-control form-control-primary" id="textareaTemplate" rows="25"></textarea>
                                             </div>
                                         </div> 
@@ -327,23 +202,14 @@ export default {
             },
             agentName: '',
             agentDescription: '',
-            selectedFoundationModel: '',
-            requestToken: 256,
-            responseToken: 256,
-            selectedEmbeddingProvider: '',
-            selectedEmbeddingModel: '',
-            selectedProvider: '',
-            selectedStorageProvider: '',
+            fm_provider_id: '',
             selectedObject: '',
             selectedFiles: [],
-            filteredFiles: [],
-            selectedVectorDB: '',
             selectedPreProcessing: '',
             selectedPostProcessing: '',
             embeddingEnabled: false,
             processingEnabled: false,
-            templateEnabled: false,
-            textareaTemplate: '"""\n<Question>{question}</Question>\n<Context>\nSummarize it\n</Context>\n<Answer>\nSummarize within 250 characters.\nAnswer in Korean.\nIf you don`t know, say you don`t know. Don`t make things up.\n</Answer>\n"""',
+            textareaTemplate: 'Summarize it.\nSummarize within 250 characters.\nAnswer in Korean.\nIf you don`t know, say you don`t know. Don`t make things up.',
             data: {
                 "data": [
                     {
@@ -354,26 +220,19 @@ export default {
                     },
                     {
                         "activeTab": "1",
-                        "class": "fa fa-database",
-                        "menu": "Embedding",
-                        "description": "Embeddings capture semantic meaning of text for efficient retrieval in retrieval-augmented generation (RAG) models.",
-                    },
-                    {
-                        "activeTab": "2",
                         "class": "fa fa-cogs",
                         "menu": "Processing",
                         "description": "Processing involves preparing input data for models (preprocessing) and handling model outputs (postprocessing) for effective communication or analysis.",
                     },
                     {
-                        "activeTab": "3",
+                        "activeTab": "2",
                         "class": "fa fa-file-code-o",
-                        "menu": "Template",
+                        "menu": "Context",
                         "description": "Templates are predefined structures that guide the creation of input prompts for models, ensuring consistency and improving response quality.",
                     },
                 ],
             },
-            modelType: 'C',
-            agentId: '',
+            agentIdData: '',
             agentData: {},            
             errorMessage: '',
             successMessage: '',
@@ -382,162 +241,72 @@ export default {
         }
     },
   computed: {
-      display() {
-        return useContactStore().display;
-      },
-      activeTab() {
-        return useContactStore().activeTab;
-      },
-      menu() {
-        return this.data.data;
-      },
-      ...mapState(useProviderStore, ['credentials', 'models']),
-      ...mapState(useStorageStore, ['storages']),
-      ...mapState(useAgentStore, ['agent']),
-      ...mapState(useProcessingStore, ['processings']),
-      filteredProviders() {
-        return this.credentials.filter(provider => provider.provider_type === "M");
-      },
-      filteredModels() {
-        let credentials = this.credentials.filter(provider => provider.credential_id === this.selectedProvider);
-        let provider_id = '';
-        if (credentials.length > 0) {
-          provider_id = credentials[0].provider_id;
+        agentCurrentId() { 
+            return String(this.router.currentRoute.query.agentId);  
+        },    
+        display() {
+            return useContactStore().display;
+        },
+        activeTab() {
+            return useContactStore().activeTab;
+        },
+        menu() {
+            return this.data.data;
+        },
+        ...mapState(useProviderStore, ['credentials']),
+        ...mapState(useStorageStore, ['storages']),
+        ...mapState(useAgentStore, ['agent']),
+        ...mapState(useProcessingStore, ['processings']),
+        filteredProviders() {
+            return this.credentials.filter(provider => provider.provider_type === "M");
+        },      
+        filteredObjects() {
+            return this.storages;
+        },
+        filteredProcessings() {
+            return this.processings;
+        },        
+        filteredPreProcessings() {
+            return this.processings.filter(processing => processing.processing_type === 'pre');
+        },
+        filteredPostProcessings() {
+            return this.processings.filter(processing => processing.processing_type === 'post');
         }
-        return this.models.filter(model => model.model_type === this.modelType && model.provider_id == provider_id);
-      },
-      filteredEmbeddingProviders() {
-        return this.credentials.filter(provider => provider.provider_type === "M");
-      },
-      filteredEmbeddingModels() {
-        let credentials = this.credentials.filter(provider => provider.credential_id === this.selectedEmbeddingProvider);
-        let provider_id = '';
-        if (credentials.length > 0) {
-          provider_id = credentials[0].provider_id;
-        }
-        return this.models.filter(model => model.model_type === "E" && model.provider_id == provider_id);
-      },
-      filteredStorageProviders() {
-        return this.credentials.filter(provider => provider.provider_type === "S" || provider.provider_type === "L");
-      },
-
-      filteredObjects() {
-        return this.storages.filter(storage => storage.credential_id === this.selectedStorageProvider);
-      },
-      filteredFiles() {
-        return this.filteredFiles;
-      },
-      isS3ProviderSelected() {
-        let credentials = this.credentials.filter(provider => provider.credential_id === this.selectedStorageProvider);
-        let provider_id = '';
-        if (credentials.length > 0) {
-          provider_id = credentials[0].provider_id;
-        }
-        let selectedProvider = this.credentials.find(provider => provider.provider_id === provider_id);
-        return selectedProvider && selectedProvider.credential_name.includes('S3');
-      },
-      filteredVectorDBProviders() {
-        return this.credentials.filter(provider => provider.provider_type === "V");
-      },
-      filteredPreProcessings() {
-        return this.processings.filter(processing => processing.processing_type === 'pre');
-      },
-      filteredPostProcessings() {
-        return this.processings.filter(processing => processing.processing_type === 'post');
-      }
-    },
-    watch: {
-        selectedStorageProvider(){
-          const filteredObjects = this.filteredObjects;
-          if (filteredObjects.length > 0){
-            this.selectedObject = filteredObjects[0].store_id;
-          }
-        },
-        requestToken(newValue) {
-            if (newValue > 5000) this.requestToken = 5000
-            else if (newValue < 0) this.requestToken = 0
-        },
-        responseToken(newValue) {
-            if (newValue > 5000) this.responseToken = 5000
-            else if (newValue < 0) this.responseToken = 0
-        },
-        selectedProvider() {
-            if (this.models.length > 0) {
-                let filteredModels = this.models.filter(model => model.model_type === this.modelType && model.model_id == this.selectedFoundationModel);
-                if (filteredModels.length > 0) {
-                    this.selectedFoundationModel = filteredModels[0].model_id;
-                }
-            }
-        },
-        modelType(newModelType) {
-            let credentials = this.credentials.filter(provider => provider.credential_id === this.selectedProvider);
-            if (credentials.length > 0) {
-                if (this.models.length > 0) {
-                    let filteredModels = this.models.filter(model => model.model_type === newModelType && model.provider_id == credentials[0].provider_id);
-                    if (filteredModels.length > 0) {
-                        this.selectedFoundationModel = filteredModels[0].model_id;
-                    }
-                }                
-            }
-        },
-        selectedEmbeddingProvider() {
-            if (this.models.length > 0) {
-                let filteredEmbeddingModels = this.models.filter(model => model.model_type === "E" && model.model_id == this.selectedEmbeddingModel);
-                if (filteredEmbeddingModels.length > 0) {
-                    this.selectedEmbeddingModel = filteredEmbeddingModels[0].model_id;
-                }
-            }
-        }
-
     },
     methods: {
-        ...mapActions(useProviderStore, ['fetchCredential', 'fetchModels']),
-        ...mapActions(useStorageStore, ['fetchAllStorages','fetchFiles','createIndexing']),
+        ...mapActions(useProviderStore, ['fetchCredential']),
+        ...mapActions(useStorageStore, ['fetchAllStorages']),
         ...mapActions(useAgentStore, ['fetchAgentById']),
         ...mapActions(useProcessingStore, ['fetchProcessingsById']),
         activeDiv(item) {
             useContactStore().active(item)
         },
-        incrementRequestToken() {
-            if (this.requestToken < 5000) this.requestToken++
-        },
-        decrementRequestToken() {
-            if (this.requestToken > 0) this.requestToken--
-        },
-        incrementResponseToken() {
-            if (this.responseToken < 5000) this.responseToken++
-        },
-        decrementResponseToken() {
-            if (this.responseToken > 0) this.responseToken--
-        },
         async fetchAgentData() {
 
-            this.agentId = String(this.router.currentRoute.query.agentId);
-            if (this.agentId) {
+            this.agentIdData = String(this.agentCurrentId);
+            if (this.agentIdData) {
                 try {
-                    await useAgentStore().fetchAgentById(this.agentId);
-                    const agentInfo = useAgentStore().agent; 
+                    const agentStore = useAgentStore();  
+                    await agentStore.fetchAgentById(this.agentIdData);  
+                    const agentInfo = agentStore.agent;
+
                     this.agentData = agentInfo;
                     this.agentName = agentInfo.agent_name;
+                    this.fm_provider_id = agentInfo.fm_provider_id;
                     this.agentDescription = agentInfo.agent_description;
-                    this.modelType = agentInfo.fm_provider_type;
-                    this.selectedProvider = agentInfo.fm_provider_id;
-                    this.selectedFoundationModel = agentInfo.fm_model_id;
                     this.temperature.value = agentInfo.fm_temperature;
                     this.topP.value = agentInfo.fm_top_p;
-                    this.requestToken = agentInfo.fm_request_token_limit;
-                    this.responseToken = agentInfo.fm_response_token_limit;
                     this.embeddingEnabled = agentInfo.embedding_enabled;
-                    this.selectedEmbeddingProvider = agentInfo.embedding_provider_id;
-                    this.selectedEmbeddingModel = agentInfo.embedding_model_id;
-                    this.selectedStorageProvider = agentInfo.storage_provider_id;
                     this.selectedObject = agentInfo.storage_object_id;
-                    this.selectedVectorDB = agentInfo.vector_db_provider_id;
                     this.processingEnabled = agentInfo.processing_enabled;
-                    this.templateEnabled = agentInfo.template_enabled;
-                    this.textareaTemplate = agentInfo.template; 
                     this.selectedPreProcessing = agentInfo.pre_processing_id;
-                    this.selectedPostProcessing = agentInfo.post_processing_id;                    
+                    this.selectedPostProcessing = agentInfo.post_processing_id;
+                    this.textareaTemplate = agentInfo.template;       
+                    
+                    // Ensure UI updates are made after data fetch  
+                    this.$nextTick(() => {  
+                        this.$forceUpdate();  
+                    });                    
                 } catch (error) {
                     console.error('Error fetching agent data:', error);
                 }
@@ -549,7 +318,7 @@ export default {
             this.successMessage = '';
 
             try {
-                await useAgentStore().deleteAgent(this.agentId);
+                await useAgentStore().deleteAgent(this.agentIdData);
                 this.successMessage = 'Agent deleted successfully.';
                 this.router.push('/agent/list');
             } catch (error) {
@@ -563,7 +332,7 @@ export default {
             this.errorMessage = '';
             this.successMessage = '';
 
-            if (!this.agentName || !this.selectedFoundationModel || !this.selectedProvider || !this.temperature.value || !this.topP.value || !this.requestToken || !this.responseToken || !this.selectedProvider || !this.userId) {
+            if (!this.agentName || !this.temperature.value || !this.topP.value || !this.userId) {
                 this.errorMessage = 'Please enter the required information.';
                 setTimeout(() => {
                     this.errorMessage = '';
@@ -577,36 +346,27 @@ export default {
                     user_id: this.userId,
                     agent_name: this.agentName,
                     agent_description: this.agentDescription,
-                    fm_provider_type: this.modelType,
-                    fm_provider_id: this.selectedProvider,
-                    fm_model_id: this.selectedFoundationModel,
+                    fm_provider_id: this.filteredProviders[0].credential_id,
                     fm_temperature: this.temperature.value,
                     fm_top_p: this.topP.value,
-                    fm_request_token_limit: this.requestToken,
-                    fm_response_token_limit: this.responseToken,
                     embedding_enabled: this.embeddingEnabled,
-                    embedding_provider_id: this.selectedEmbeddingProvider,
-                    embedding_model_id: this.selectedEmbeddingModel,
-                    storage_provider_id: this.selectedStorageProvider,
                     storage_object_id: this.selectedObject,
-                    vector_db_provider_id: this.selectedVectorDB,
                     processing_enabled: this.processingEnabled,
                     pre_processing_id: this.selectedPreProcessing,
                     post_processing_id: this.selectedPostProcessing,
-                    template_enabled: this.templateEnabled,
                     template: this.textareaTemplate,      
                     creator_id: this.userId,
                     updater_id: this.userId
                 };
 
-                if (this.agentId) {
-                    agentData.agent_id = this.agentId;
+                if (this.agentIdData) {
+                    agentData.agent_id = this.agentIdData;
                     await useAgentStore().updateAgent(agentData);
                     
                 } else {
                     await useAgentStore().createAgent(agentData);
                     const agentInfo = useAgentStore().agent;
-                    this.agentId = agentInfo.agent_id;
+                    this.agentIdData = agentInfo.agent_id;
                 }   
                 this.successMessage = 'Agent updated successfully.';
             } catch (error) {
@@ -618,82 +378,30 @@ export default {
                     this.successMessage = '';
                 }, 2000);                  
             }
-        },
-        async createIndexing() {
-            this.loading = true;
-            this.errorMessage = '';
-            this.successMessage = '';
-
-            try {
-                let embeddings = {
-                    user_id: this.userId,
-                    embedding_provider_id: this.selectedEmbeddingProvider,
-                    embedding_model_id: this.selectedEmbeddingModel,
-                    storage_provider_id: this.selectedStorageProvider,
-                    storage_object_id: this.selectedObject,
-                    vector_db_provider_id: this.selectedVectorDB
-                };                
-                await useStorageStore().createIndexing(embeddings);
-                this.successMessage = 'Agent updated successfully.';
-            } catch (error) {
-                console.error('An error occurred while deleting the storage.', error);
-            } finally {
-                this.loading = false;
-                setTimeout(() => {
-                    this.errorMessage = '';
-                    this.successMessage = '';
-                }, 2000);  
-            }
-        },
-        async loadFiles(storeName) {
-          try {
-            const files = await useStorageStore().fetchFiles(this.userId, storeName);
-            this.filteredFiles = files;
-          } catch (error) {
-            console.error('Error loading files:', error);
-          }
-        },
-        getFileName(filePath) {
-          if (filePath && filePath.lastIndexOf('/') !== -1) {
-            return filePath.substring(filePath.lastIndexOf('/') + 1);
-          }
-          return filePath;
         }
     },
     async mounted() {
         this.router = useRouter();
-
         this.loading = true
 
         try {
             const tasks = [
-                !this.router.currentRoute.query.agentId && useAgentStore().resetAgent(),
+                !this.agentCurrentId && useAgentStore().resetAgent(),
                 useProviderStore().fetchCredential({ userId: this.userId }),
-                useProviderStore().fetchModels(),
                 useProcessingStore().fetchProcessingsById({ userId: this.userId }),
                 useStorageStore().fetchAllStorages(this.userId)            
             ];
 
             await Promise.all(tasks);
 
-            if (this.credentials.length > 0) {
-                this.selectedProvider = this.filteredProviders[0]?.credentials_id || '';
-                this.selectedEmbeddingProvider = this.filteredEmbeddingProviders[0]?.credentials_id || '';
-                this.selectedStorageProvider = this.filteredStorageProviders[0]?.credentials_id || '';
-                this.selectedVectorDB = this.filteredVectorDBProviders[0]?.credentials_id || '';
-            }
             if (this.processings.length > 0) {
                 this.selectedPreProcessing = this.filteredPreProcessings[0]?.processing_id || '';
                 this.selectedPostProcessing = this.filteredPostProcessings[0]?.processing_id || '';
             }
             if (this.storages.length > 0) {
                 this.selectedObject = this.filteredObjects[0]?.store_id || '';
-                // const firstStore = this.filteredObjects[0];
-                // if (firstStore?.store_name) {
-                //     await this.loadFiles(firstStore.store_name);
-                // }
             }
-            if (this.router.currentRoute.query.agentId || this.agentId) {
+            if (this.agentCurrentId || this.agentIdData) {
                 await this.fetchAgentData();
             }
         } catch (error) {

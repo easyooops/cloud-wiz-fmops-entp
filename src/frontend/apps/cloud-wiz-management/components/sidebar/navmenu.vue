@@ -242,7 +242,7 @@ export default {
     this.handleResize();
     if (useMenuStore().width < 991) {
       this.layout.settings.layout = 'Dubai';
-      this.margin = 0;
+      useMenuStore().margin = 0;
     }
     setTimeout(() => {
       const elmnt = document.getElementById('myDIV');

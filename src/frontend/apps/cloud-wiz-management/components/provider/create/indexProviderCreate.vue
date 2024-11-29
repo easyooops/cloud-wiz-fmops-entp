@@ -282,7 +282,7 @@ export default {
       let authUrl;
 
       if (environment === 'local'){
-        const redirectUri = 'http://localhost:5006/google/callback';
+        const redirectUri = 'http://localhost:11006/google/callback';
         authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=${responseType}&access_type=${accessType}&prompt=${prompt}`;
 
       }else{

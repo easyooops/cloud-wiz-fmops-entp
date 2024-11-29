@@ -1,6 +1,5 @@
 import boto3
 from app.components.Embedding.Base import AbstractEmbeddingComponent
-# from langchain_community.embeddings import BedrockEmbeddings
 from langchain_aws import BedrockEmbeddings
 
 class BedrockEmbeddingComponent(AbstractEmbeddingComponent):

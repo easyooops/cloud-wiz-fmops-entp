@@ -1,55 +1,38 @@
 import asyncio
-import datetime
 from decimal import Decimal
-import json
-from langchain_core.documents import Document
 from sqlalchemy.orm import aliased
 import os
 from typing import Dict, List, Optional
 import openai
-import tiktoken
 from fastapi import HTTPException
-from langchain_openai import OpenAIEmbeddings
 from sqlmodel import Session, select
-from langchain_community.vectorstores import FAISS
-from langchain_text_splitters import CharacterTextSplitter
 from uuid import UUID
 import logging
-from app.components.Embedding.Bedrock import BedrockEmbeddingComponent
-from app.components.Embedding.OpenAI import OpenAIEmbeddingComponent
 from app.service.agent.model import Agent
 from langchain.chains import RetrievalQA
-from app.service.chat.service import ChatService
-from app.service.model.model import Model
 from app.service.store.model import Store
 from app.service.provider.model import Provider
-from app.components.LLM.OpenAI import OpenAILLMComponent
-from app.components.Chat.OpenAI import ChatOpenAIComponent
 from app.components.Chat.Bedrock import ChatBedrockComponent
-from app.components.LLM.Bedrock import BedrockLLMComponent
 from app.core.util.token import TokenUtilityService
 from app.api.v1.schemas.chat import ChatResponse
 from app.service.store.service import StoreService
-from ddtrace.llmobs.decorators import workflow
-from ddtrace.llmobs import LLMObs
 from app.core.util.logging import LoggingConfigurator
 from app.service.processing.model import Processing
 from app.core.util.piimasking import PiiMaskingService
 from app.core.util.textNormailization import TextNormalizationService
 from app.service.credential.model import Credential
-from app.components.VectorStore.Chroma import ChromaVectorStoreComponent
-from app.components.VectorStore.Pinecone import PineconeVectorStoreComponent
-from app.service.credential.service import CredentialService
-from app.components.Chat.GoogleAI import ChatGoogleAIComponent
-from app.components.LLM.GoogleAI import GoogleAILLMComponent
-from app.components.Embedding.GoogleAI import GoogleEmbeddingComponent
-
+from app.service.embedding.service import EmbeddingService
+from app.components.Chat.AzureOpenAI import ChatOpenAIComponent
+from app.components.Chat.GoogleVertexAI import ChatVertexAIComponent
+from app.components.Retrievers.AzureSearch import AzureSearchRetrieversComponent
+from app.components.Retrievers.Bedrock import BedrockRetrieverComponent
+from app.components.Retrievers.VertexAISearch import VertexAIRetrieversComponent
 
 class PromptService:
     def __init__(self, session: Session):
         self.session = session
+        self.embedding_service = EmbeddingService(session)
 
-    @workflow(name="cloudwiz-ai-fmops")
     @LoggingConfigurator.log_method
     def get_prompt(self, agent_id: UUID, query: Optional[str] = None) -> ChatResponse:
 
@@ -75,9 +58,8 @@ class PromptService:
             if _d_agent.processing_enabled:
                 query = self._preprocess_query(agent_data, query)
 
-            # template
-            if _d_agent.template_enabled:
-                query = self._replace_question(_d_agent.template, query)
+            # add context
+            query = self._replace_question(_d_agent.template, query)
 
             # embedding
             if _d_agent.embedding_enabled:
@@ -86,15 +68,16 @@ class PromptService:
                 store_data = agent_data['Store']
                 user_id = _d_agent.user_id
 
-                if store_data:
-                    storage_limit_response = self._check_storage_limit(user_id, store_data)
-                    if storage_limit_response:
-                        return storage_limit_response
+                # Limit Storage
+                # if store_data:
+                #     storage_limit_response = self._check_storage_limit(user_id, store_data)
+                #     if storage_limit_response:
+                #         return storage_limit_response
                         
                 try:
-                    documents = asyncio.run(self._run_embedding_main(agent_data))
-                    rag_response = asyncio.run(self._run_rag_retrieval(agent_data, query, documents))
-                    response = rag_response["llm_response"]
+                    documents = asyncio.run(self.embedding_service._run_embedding_main(agent_data))
+                    # rag_response = asyncio.run(self._run_rag_retrieval(agent_data, query))
+                    response = self._run_rag_retrieval(agent_data, query, documents)
                 except openai.PermissionDeniedError as e:
                     logging.error(f"Embedding generation permission denied: {str(e)}")
                     raise HTTPException(status_code=403, detail="Embedding generation permission denied")
@@ -110,13 +93,6 @@ class PromptService:
 
             # tokens, cost
             tokens = self._get_token_counts(agent_id, query, response)
-
-            LLMObs.annotate(
-                span=None,
-                input_data=query,
-                output_data=response,
-                tags={"agent_id":str(_d_agent.agent_id),"input_date": str(datetime.datetime),"user_id": str(_d_agent.user_id),"result": "success"}
-            )
                 
             return ChatResponse(
                         answer=response,
@@ -124,28 +100,16 @@ class PromptService:
                         cost=tokens['total_cost']
                     )
 
-        except Exception as e:
-            LLMObs.annotate(
-                span=None,
-                input_data=query,
-                output_data=response,
-                tags={"agent_id":str(_d_agent.agent_id),"input_date": str(datetime.datetime),"user_id": str(_d_agent.user_id),"result": "fail","error": e}
-            )            
+        except Exception as e:    
             raise HTTPException(status_code=500, detail=str(e))
 
     def _get_agent_data(self, agent_id: UUID):
-        EmbeddingModel = aliased(Model)
         statement = (
             select(
-                Agent, Model, Credential, Provider, Store,
-                EmbeddingModel.model_name.label('embedding_model_name'),
-                Provider.name.label('embedding_provider_name')
+                Agent, Credential, Store
             )
-            .join(Model, Agent.fm_model_id == Model.model_id)
             .join(Credential, Agent.fm_provider_id == Credential.credential_id)
-            .join(Provider, Credential.provider_id == Provider.provider_id)
             .outerjoin(Store, Agent.storage_object_id == Store.store_id)
-            .outerjoin(EmbeddingModel, Agent.embedding_model_id == EmbeddingModel.model_id)
         )
         statement = statement.where(Agent.agent_id == agent_id)
 
@@ -154,16 +118,12 @@ class PromptService:
         if not result:
             raise HTTPException(status_code=404, detail="Agent not found")
 
-        agent_data, model_data, credential_data, provider_data, store_data, embedding_model_name, embedding_provider_name = result
+        agent_data, credential_data, store_data = result
 
         return {
             "Agent": agent_data,
-            "Model": model_data,
             "Credential": credential_data,
-            "Provider": provider_data,
-            "Store": store_data,
-            "EmbeddingModelName": embedding_model_name,
-            "EmbeddingProviderName": embedding_provider_name
+            "Store": store_data
         }
     
     def _get_processing_data(self, processing_id: UUID):
@@ -225,8 +185,12 @@ class PromptService:
     def _convert_list(self, data: str) -> List[str]:
         return data.split('|')
 
-    def _replace_question(self, template: str, question: str) -> str:
-        return template.format(question=question)
+    def _replace_question(self, context: str, question: str) -> str:
+        messages = [
+            ("system", context),
+            ("human", question)
+        ]        
+        return messages
 
     def _preprocess_query(self, agent_data, query: str):
 
@@ -253,397 +217,113 @@ class PromptService:
                 query = query.replace(stopword, '')
 
         return query
+        
+    def _initialize_chat_component(self, csp_provider: str):  
+        """  
+        Initialize the chat component based on the chat provider type.  
+    
+        Args:  
+            csp_provider (str): Type of chat provider (e.g., "azure" for OpenAI, "aws" for Bedrock, "gcp" for Google VertexAI).  
+    
+        Returns:  
+            Any: The initialized chat component.  
+    
+        Raises:  
+            ValueError: If required credentials are missing.  
+        """  
+    
+        # Azure OpenAI Chat  
+        if csp_provider == "azure":  
+            azure_endpoint = os.getenv("AZURE_OPENAI_API_ENDPOINT")  
+            openai_api_version = os.getenv("AZURE_OPENAI_API_CHAT_VERSION")  
+            api_key = os.getenv("AZURE_OPENAI_API_KEY")
+            model_id = os.getenv("AZURE_OPENAI_CHAT_MODEL_ID")
+            if not all([openai_api_version, azure_endpoint, api_key, model_id]):  
+                raise ValueError("Azure OpenAI credentials are not set in the environment variables.")  
+            return ChatOpenAIComponent(openai_api_version, azure_endpoint, api_key, model_id)  
+        
+        # AWS Bedrock Chat  
+        elif csp_provider == "aws":  
+            aws_access_key = os.getenv("AWS_ACCESS_KEY_ID")  
+            aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")  
+            aws_region = os.getenv("AWS_REGION")  
+            if not all([aws_access_key, aws_secret_access_key, aws_region]):  
+                raise ValueError("AWS credentials or region are not set in the environment variables.")  
+            return ChatBedrockComponent(aws_access_key, aws_secret_access_key, aws_region)  
+        
+        # Google VertexAI Chat  
+        elif csp_provider == "gcp":  
+            project_id = os.getenv("GCP_PROJECT_ID")  
+            location = os.getenv("GCP_LOCATION")  
+            credentials_path = os.getenv("GCP_CREDENTIALS_PATH")  
+            if not all([project_id, location, credentials_path]):  
+                raise ValueError("Google VertexAI credentials are not set in the environment variables.")  
+            return ChatVertexAIComponent(project_id, location, credentials_path)  
+        
+        else:  
+            raise ValueError(f"Unsupported chat type: {csp_provider}")  
 
-    def split_text_into_chunks(self, text, max_tokens, model_name='cl100k_base'):
+    def _initialize_retrievers_component(self, csp_provider: str, index_name: str):  
+        """  
+        Initialize the retriever component based on the provider type.  
+    
+        Args:  
+            csp_provider (str): Type of retriever provider (e.g., "azure" for Azure Search, "aws" for Bedrock, "gcp" for Google VertexAI).  
+            resource_id (str): Resource identifier such as index name for Azure, knowledge base ID for AWS, or data store ID for Google VertexAI.  
+    
+        Returns:  
+            Any: The initialized retriever component.  
+    
+        Raises:  
+            ValueError: If required credentials are missing.  
+        """  
+        # Azure Search Retriever  
+        if csp_provider == "azure":
+            model_id = os.getenv("AZURE_OPENAI_CHAT_MODEL_ID")
+            return AzureSearchRetrieversComponent(index_name, model_id)  
+    
+        # AWS Bedrock Retriever  
+        elif csp_provider == "aws":  
+            return BedrockRetrieverComponent(index_name)  
+    
+        # Google VertexAI Retriever  
+        elif csp_provider == "gcp":  
+            project_id = os.getenv("GCP_PROJECT_ID")  
+            location_id = os.getenv("GCP_LOCATION")  
+            search_engine_id = os.getenv("GCP_SEARCH_ENGINE_ID")  
+            if not all([project_id, location_id]):  
+                raise ValueError("Google VertexAI project ID and location ID must be set in the environment variables.")  
+            return VertexAIRetrieversComponent(project_id, location_id, index_name, search_engine_id)  
+    
+        else:  
+            raise ValueError(f"Unsupported retriever type: {csp_provider}")  
+        
+    async def _run_rag_retrieval(self, agent_data, query: str, documents):
+        retriever_component = None
+        agents_store = agent_data['Agent']        
         try:
-            encoding = tiktoken.get_encoding(model_name)
-        except KeyError:
-            logging.warning(f"Warning: model {model_name} not found. Using cl100k_base encoding.")
-            encoding = tiktoken.get_encoding("cl100k_base")
+            index_name = f"{agents_store.storage_object_id}_index" 
+            csp_provider = os.getenv("CSP_PROVIDER")
+            retriever_component = self._initialize_retrievers_component(csp_provider, index_name)
+            retriever_component.build()
+            retriever_component.run(query)
 
-        tokens = encoding.encode(text)
-
-        chunks = []
-        for i in range(0, len(tokens), max_tokens):
-            chunk_tokens = tokens[i:i + max_tokens]
-            chunks.append(encoding.decode(chunk_tokens))
-        return chunks
-
-    async def _run_embedding_main(self, agent_data):
-        agent = agent_data['Agent']
-
-        store_service = StoreService(self.session)
-
-        vector_store_type = store_service.get_provider_info(agent.vector_db_provider_id)
-        if vector_store_type == "FS":
-            return await self._run_embedding_faiss(agent_data)
-        elif vector_store_type == "CM":
-            return await self._run_embedding_chroma(agent_data)
-        elif vector_store_type == "PC":
-            return await self._run_embedding_pinecone(agent_data)
-        else:
-            return await self._run_embedding_faiss(agent_data)    
-            
-    async def _run_embedding_faiss(self, agent_data):
-        """
-        Run the embedding process using FAISS.
+            return retriever_component.use_within_chain(query)
         
-        Args:
-            agent_data (Dict[str, Any]): Dictionary containing agent-related data.
-        
-        Returns:
-            Any: The FAISS engine or an error message.
-        """
-        store_service = StoreService(self.session)
-
-        try:
-            agents_store = agent_data['Agent']
-            embedding_model_name = agent_data['EmbeddingModelName']
-
-            # Load Object
-            storage_store = agent_data['Store']
-            files = None
-            if storage_store:
-                file_metadata_list = store_service.list_files(storage_store.user_id, storage_store.store_id)
-                files = [file_metadata['Key'] for file_metadata in file_metadata_list]
-
-            # Load Document
-            documents = store_service.load_documents_v3(agents_store.storage_provider_id, files)
-
-            # Make Chunks
-            text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
-            chunks = [chunk for chunk in text_splitter.split_documents(documents) if chunk.page_content]
-
-            # Credential Type
-            embedding_type = store_service.get_provider_info(agents_store.embedding_provider_id)
-            embed_component = self._initialize_embedding_component(embedding_type, agent_data)
-
-            embed_component.build(embedding_model_name)
-            embeddings = await embed_component.run_embed_documents([chunk.page_content for chunk in chunks])
-
-            logging.info(f"Number of chunks: {len(chunks)}")
-            logging.info(f"Number of embeddings: {len(embeddings)}")
-            logging.info(f"Sample chunk content: {chunks[0].page_content if chunks else 'No chunks'}")
-            logging.info(f"Sample embedding: {embeddings[0] if embeddings else 'No embeddings'}")
-
-            docs_with_embeddings = [
-                Document(page_content=chunk.page_content, metadata={"embedding": embedding})
-                for chunk, embedding in zip(chunks, embeddings)
-            ]
-
-            engine = await FAISS.afrom_documents(docs_with_embeddings, embed_component.model_instance)
-
-            return engine
-        
-        except IndexError as e:
-            logging.error(f"IndexError occurred during the FAISS embedding process: {e}")
-            logging.error(f"Chunks: {len(chunks)}, Embeddings: {len(embeddings)}")
-            return f"IndexError occurred: {e}"
         except Exception as e:
-            logging.error(f"An unexpected error occurred during the FAISS embedding process: {e}")
-            return f"An unexpected error occurred: {e}"
-
-    async def _run_embedding_faiss_backup(self, agent_data):
-        """
-        Run the embedding process using FAISS.
-        
-        Args:
-            agent_data (Dict[str, Any]): Dictionary containing agent-related data.
-        
-        Returns:
-            Any: The FAISS engine or an error message.
-        """
-        store_service = StoreService(self.session)
-
-        try:
-            agents_store = agent_data['Agent']
-            embedding_model_name = agent_data['EmbeddingModelName']
-
-            # Load Object
-            storage_store = agent_data['Store']
-            files = None
-            if storage_store:
-                file_metadata_list = store_service.list_files(storage_store.user_id, storage_store.store_id)
-                files = [file_metadata['Key'] for file_metadata in file_metadata_list]
-
-            # Load Document
-            documents = store_service.load_documents_v3(agents_store.storage_provider_id, files)
-
-            # Make Chunks
-            text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
-            chunks = text_splitter.split_documents(documents)
-
-            # Credential Type
-            embedding_type = store_service.get_provider_info(agents_store.embedding_provider_id)
-            embed_component = self._initialize_embedding_component(embedding_type, agent_data)
-
-            embed_component.build(embedding_model_name)
-            embeddings = await embed_component.run_embed_documents([doc.page_content for doc in chunks])
-            docs_with_embeddings = [
-                Document(page_content=doc.page_content, metadata={"embedding": embedding})
-                for doc, embedding in zip(documents, embeddings)
-            ]
-            engine = await FAISS.afrom_documents(docs_with_embeddings, embed_component.model_instance)
-
-            return engine
-        except Exception as e:
-            logging.error(f"An error occurred during the FAISS embedding process: {e}")
-            return f"An error occurred: {e}"
-        
-    async def _run_embedding_chroma(self, agent_data):
-        """
-        Load the Chroma engine for querying.
-        
-        Args:
-            agent_data (Dict[str, Any]): Dictionary containing agent-related data.
-        
-        Returns:
-            Any: The Chroma engine or an error message.
-        """    
-        store_service = StoreService(self.session)
-        credential_service = CredentialService(self.session)
-
-        try:            
-            agents_store = agent_data['Agent']
-            embedding_model_name = agent_data['EmbeddingModelName']
-
-            embedding_type = store_service.get_provider_info(agents_store.embedding_provider_id)
-            embed_component = self._initialize_embedding_component(embedding_type, agent_data)
-            embed_component.build(embedding_model_name)
-
-            persist_directory = f"./chroma_db/{agents_store.storage_provider_id}"
-
-            chroma_component = ChromaVectorStoreComponent()
-            chroma_component.embedding_function = embed_component.model_instance
-
-            chroma_component.load_index(persist_directory)
-
-            if chroma_component.db:
-                logging.warning("Database initialized successfully.")
-            else:
-                logging.warning("Database initialization failed.")
-
-            return chroma_component.db
-        except Exception as e:
-            logging.error(f"An error occurred while loading the Chroma engine: {e}")
-            return f"An error occurred: {e}"
-
-    async def _run_embedding_pinecone(self, agent_data):
-        """
-        Load the Pinecone engine for querying.
-        
-        Args:
-            agent_data (Dict[str, Any]): Dictionary containing agent-related data.
-        
-        Returns:
-            Any: The Pinecone engine or an error message.
-        """
-        store_service = StoreService(self.session)
-
-        try:            
-            agents_store = agent_data['Agent']
-            embedding_model_name = agent_data['EmbeddingModelName']
-
-            # Get embedding type and initialize embedding component
-            embedding_type = store_service.get_provider_info(agents_store.embedding_provider_id)
-            embed_component = self._initialize_embedding_component(embedding_type, agent_data)
-            embed_component.build(embedding_model_name, 1536)
-
-            # Pinecone initialization
-            pinecone_api_key = store_service._get_credential_info(agents_store.vector_db_provider_id, "PINECONE_API_KEY")
-            pinecone_environment = store_service._get_credential_info(agents_store.embedding_provider_id, "AWS_REGION")
-            index_name = str(agents_store.storage_provider_id)
-            pinecone_component = PineconeVectorStoreComponent(api_key=pinecone_api_key, environment=pinecone_environment, index_name=index_name)
-            pinecone_component.load_index(embedding_function=embed_component.model_instance)
-
-            if pinecone_component.db:
-                logging.warning("Database initialized successfully.")
-            else:
-                logging.warning("Database initialization failed.")
-
-            return pinecone_component.db
-        except Exception as e:
-            logging.error(f"An error occurred while loading the Pinecone engine: {e}")
-            return f"An error occurred: {e}"
-        
-    def _initialize_embedding_component(self, embedding_type: str, agent_data):
-        """
-        Initialize the embedding component based on the embedding type.
-        
-        Args:
-            embedding_type (str): Type of embedding provider (e.g., "OA" for OpenAI, "BR" for Bedrock).
-            agent_data (Dict[str, Any]): Dictionary containing agent-related data.
-        
-        Returns:
-            Any: The initialized embedding component.
-        
-        Raises:
-            ValueError: If required credentials are missing.
-        """
-        if embedding_type == "OA":
-            openai_api_key = self._get_credential_info(agent_data, "OPENAI_API_KEY")
-            if not openai_api_key:
-                raise ValueError("OpenAI API key is not set in the provider information.")
-            return OpenAIEmbeddingComponent(openai_api_key)
-
-        elif embedding_type == "BR":
-            aws_access_key = self._get_credential_info(agent_data, "AWS_ACCESS_KEY_ID")
-            aws_secret_access_key = self._get_credential_info(agent_data, "AWS_SECRET_ACCESS_KEY")
-            aws_region = self._get_credential_info(agent_data, "AWS_REGION")
-            if not all([aws_access_key, aws_secret_access_key, aws_region]):
-                raise ValueError("AWS credentials or region are not set in the provider information.")
-            return BedrockEmbeddingComponent(aws_access_key, aws_secret_access_key, aws_region)
-        
-        elif embedding_type == "GN":
-            google_api_key = self._get_credential_info(agent_data, "GOOGLE_API_KEY")
-            if not google_api_key:
-                raise ValueError("GoogleAI API key is not set in the provider information.")
-            return GoogleEmbeddingComponent(google_api_key)
-                
-        else:
-            raise ValueError(f"Unsupported embedding type: {embedding_type}")
-        
-    def _initialize_chat_component(self, model_type: str, agent_data):
-        """
-        Initialize the chat component based on the model type.
-        
-        Args:
-            model_type (str): Type of chat provider (e.g., "OA" for OpenAI, "BR" for Bedrock, "GN" for Google).
-            agent_data (Dict[str, Any]): Dictionary containing agent-related data.
-        
-        Returns:
-            Any: The initialized chat component.
-        
-        Raises:
-            ValueError: If required credentials are missing.
-        """
-        if model_type == "OA":
-            openai_api_key = self._get_credential_info(agent_data, "OPENAI_API_KEY")
-            if not openai_api_key:
-                raise ValueError("OpenAI API key is not set in the provider information.")
-            return ChatOpenAIComponent(openai_api_key)
-
-        elif model_type == "BR":
-            aws_access_key = self._get_credential_info(agent_data, "AWS_ACCESS_KEY_ID")
-            aws_secret_access_key = self._get_credential_info(agent_data, "AWS_SECRET_ACCESS_KEY")
-            aws_region = self._get_credential_info(agent_data, "AWS_REGION")
-            if not all([aws_access_key, aws_secret_access_key, aws_region]):
-                raise ValueError("AWS credentials or region are not set in the provider information.")
-            return ChatBedrockComponent(aws_access_key, aws_secret_access_key, aws_region)
-        
-        elif model_type == "GN":
-            google_api_key = self._get_credential_info(agent_data, "GOOGLE_API_KEY")
-            if not google_api_key:
-                raise ValueError("Google API key is not set in the provider information.")
-            return ChatGoogleAIComponent(google_api_key)
-                
-        else:
-            raise ValueError(f"Unsupported chat type: {model_type}")       
-
-    def _initialize_llm_component(self, model_type: str, agent_data):
-        """
-        Initialize the llm component based on the model type.
-        
-        Args:
-            model_type (str): Type of llm provider (e.g., "OA" for OpenAI, "BR" for Bedrock, "GN" for Google).
-            agent_data (Dict[str, Any]): Dictionary containing agent-related data.
-        
-        Returns:
-            Any: The initialized llm component.
-        
-        Raises:
-            ValueError: If required credentials are missing.
-        """
-        if model_type == "OA":
-            openai_api_key = self._get_credential_info(agent_data, "OPENAI_API_KEY")
-            if not openai_api_key:
-                raise ValueError("OpenAI API key is not set in the provider information.")
-            return OpenAILLMComponent(openai_api_key)
-
-        elif model_type == "BR":
-            aws_access_key = self._get_credential_info(agent_data, "AWS_ACCESS_KEY_ID")
-            aws_secret_access_key = self._get_credential_info(agent_data, "AWS_SECRET_ACCESS_KEY")
-            aws_region = self._get_credential_info(agent_data, "AWS_REGION")
-            if not all([aws_access_key, aws_secret_access_key, aws_region]):
-                raise ValueError("AWS credentials or region are not set in the provider information.")
-            return BedrockLLMComponent(aws_access_key, aws_secret_access_key, aws_region)
-        
-        elif model_type == "GN":
-            google_api_key = self._get_credential_info(agent_data, "GOOGLE_API_KEY")
-            if not google_api_key:
-                raise ValueError("Google API key is not set in the provider information.")
-            return GoogleAILLMComponent(google_api_key)
-                
-        else:
-            raise ValueError(f"Unsupported llm type: {model_type}")
-
-
-    async def _run_rag_retrieval(self, agent_data, query: str, db, top_k: int = 5):
-        store_service = StoreService(self.session)
-        try:
-            agents_store = agent_data['Agent']
-            models_store = agent_data['Model']
-            
-            matching_docs = db.similarity_search(query, k=top_k)
-
-            retriever = db.as_retriever()
-
-            model_type = store_service.get_provider_info(agents_store.fm_provider_id)
-
-            if agents_store.fm_provider_type == "T":
-                component = self._initialize_llm_component(model_type, agent_data)
-            elif agents_store.fm_provider_type == "C":    
-                component = self._initialize_chat_component(model_type, agent_data)
-  
-            component.build(
-                model_id=models_store.model_name,
-                temperature=agents_store.fm_temperature,
-                top_p=agents_store.fm_top_p,
-                max_tokens=agents_store.fm_response_token_limit
-            )
-
-            llm_instance = component.model_instance
-
-            qa_chain = RetrievalQA.from_chain_type(llm=llm_instance, chain_type="stuff", retriever=retriever)
-            inputs = {"query": query, "input_documents": matching_docs}
-            try:
-                answer = await asyncio.to_thread(qa_chain.invoke, inputs)
-                result = answer['result'] if 'result' in answer else answer
-                logging.info(f"Generated answer: {result}")
-            except Exception as e:
-                logging.error(f"Error generating response from QA chain: {str(e)}")
-                result = "Error generating response from QA chain"
-
-            return {
-                "matching_documents": matching_docs,
-                "llm_response": result
-            }
-
-        except Exception as e:
-            logging.error(f"Exception in run_rag_openai: {str(e)}")
+            logging.error(f"Exception in _run_openai_model: {str(e)}")
             raise HTTPException(status_code=500, detail=str(e))
         
     def _run_model(self, agent_data, query, history):
-        store_service = StoreService(self.session)
+        component = None
+        agents_store = agent_data['Agent']    
+            
         try:
-            component = None
-
-            agents_store = agent_data['Agent']
-            models_store = agent_data['Model']
-
-            model_type = store_service.get_provider_info(agents_store.fm_provider_id)
-
-
-            if agents_store.fm_provider_type == "T":
-                component = self._initialize_llm_component(model_type, agent_data)
-            elif agents_store.fm_provider_type == "C":    
-                component = self._initialize_chat_component(model_type, agent_data)
-  
+            csp_provider = os.getenv("CSP_PROVIDER")
+            component = self._initialize_chat_component(csp_provider)
             component.build(
-                model_id=models_store.model_name,
                 temperature=agents_store.fm_temperature,
-                top_p=agents_store.fm_top_p,
-                max_tokens=agents_store.fm_response_token_limit
+                top_p=agents_store.fm_top_p
             )
 
             return component.run(query)
@@ -680,32 +360,17 @@ class PromptService:
 
     def _get_token_counts(self, agent_id: UUID, query: Optional[str] = None, text: Optional[str] = None):
         try:
-
-            agent_data = self._get_agent_data(agent_id)
-            _d_agent = agent_data['Model']
-            
             logging.warning('=== _get_token_counts()  =====================================')
 
             logging.warning(query)
-            logging.warning(_d_agent.model_name)
             logging.warning(text)
-            token_component = TokenUtilityService(None, None, None)
-            prompt_token_counts = token_component.get_token_count(query, _d_agent.model_name)
-            completion_token_counts = token_component.get_token_count(text, _d_agent.model_name)
-            prompt_cost = token_component.get_prompt_cost(text, _d_agent.model_name)
-            completion_cost = token_component.get_completion_cost(query, _d_agent.model_name)
-
-            logging.warning(prompt_token_counts)
-            logging.warning(completion_token_counts)
-            logging.warning(prompt_cost)
-            logging.warning(completion_cost)
 
             logging.warning('=== _get_token_counts()  =====================================')
 
-            prompt_token_counts = prompt_token_counts or 0
-            completion_token_counts = completion_token_counts or 0
-            prompt_cost = prompt_cost or 0.0
-            completion_cost = completion_cost or 0.0
+            prompt_token_counts = 0
+            completion_token_counts = 0
+            prompt_cost = 0.0
+            completion_cost = 0.0
 
             if isinstance(prompt_cost, Decimal):
                 prompt_cost = float(prompt_cost)
@@ -737,9 +402,9 @@ class PromptService:
 
     def _get_bedrock_token_counts(self, text: Optional[str] = None, model_name: Optional[str] = None):
 
-        aws_access_key = os.getenv("INNER_AWS_ACCESS_KEY_ID")
-        aws_secret_access_key = os.getenv("INNER_AWS_SECRET_ACCESS_KEY")
-        aws_region = os.getenv("INNER_AWS_REGION")
+        aws_access_key = os.getenv("AWS_ACCESS_KEY_ID")
+        aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")
+        aws_region = os.getenv("AWS_REGION")
 
         if not aws_access_key:
             return "aws_access_key is not set in the environment variables"
@@ -767,23 +432,3 @@ class PromptService:
         except Exception as e:
             self.session.rollback()
             raise HTTPException(status_code=500, detail=str(e))
-        
-    def _get_credential_info(self, agent_data, key):
-
-        _d_credential = agent_data['Credential']
-
-        if not _d_credential.inner_used:
-            if key == "AWS_ACCESS_KEY_ID":
-                return _d_credential.access_key
-            elif key == "AWS_SECRET_ACCESS_KEY":
-                return _d_credential.secret_key
-            elif key == "AWS_REGION":
-                return os.getenv(key)
-            elif key == "OPENAI_API_KEY":
-                return _d_credential.api_key
-            elif key == "GOOGLE_API_KEY":
-                return _d_credential.api_key
-            elif key == "PINECONE_API_KEY":
-                return _d_credential.api_key             
-        else:
-            return os.getenv(key)

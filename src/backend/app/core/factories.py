@@ -3,10 +3,6 @@ from typing import Generator, Optional
 
 from app.core.manager import ServiceManager
 from app.core.interface.service import ServiceType, StorageService
-from app.core.provider.storage.GoogleDrive import GoogleDriveStorageServiceFactory
-from app.core.provider.storage.S3 import S3StorageServiceFactory
-from app.core.provider.storage.GitHub import GitHubStorageServiceFactory
-from app.core.provider.storage.Notion import NotionStorageServiceFactory
 
 # ServiceManager 인스턴스를 생성합니다.
 service_manager = ServiceManager()

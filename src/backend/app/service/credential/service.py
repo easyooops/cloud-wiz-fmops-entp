@@ -1,5 +1,3 @@
-import json
-import logging
 import os
 from typing import List, Optional
 from sqlalchemy import func
@@ -12,7 +10,6 @@ from app.service.provider.model import Provider
 from app.service.agent.model import Agent
 from app.core.interface.service import ServiceType, StorageService
 from app.core.manager import ServiceManager
-from app.service.auth.service import AuthService
 from app.components.DocumentLoader.Notion import NotionDocumentLoader
 from app.components.DocumentLoader.Snowflake import SnowflakeDocumentLoader
 from app.components.DocumentLoader.GIT import GitDocumentLoader
@@ -142,67 +139,43 @@ class CredentialService():
         except Exception as e:
             raise e
 
-    def _set_storage_credential(self, credential_id: UUID) -> StorageService:
+    def _set_storage_credential(self, credential_id: UUID) -> StorageService:  
         try:
-            credential_query = (
-                select(Credential, Provider)
-                .join(Provider, Credential.provider_id == Provider.provider_id)
-                .where(Credential.credential_id == credential_id)
-            )
-            result = self.session.execute(credential_query).first()
-
-            if not result:
-                raise ValueError(f"Credential with id {credential_id} and provider type 'S' not found")
-
-            credential, provider = result
-
-            aws = AuthService.get_aws_key()
-
-            if credential.inner_used:
-                config = {
-                    'aws_access_key_id': aws['aws_access_key'],
-                    'aws_secret_access_key': aws['aws_secret_access_key'],
-                    'aws_region': aws['aws_region'],
-                    'bucket_name': self.store_bucket,
-                    'credentials_json': os.getenv('GOOGLE_DRIVE_CREDENTIALS_JSON'),
-                    'api_token': os.getenv('NOTION_API_TOKEN'),
-                    'database_id': os.getenv('NOTION_DATABASE_ID'),
-                    'token': os.getenv('GITHUB_TOKEN'),
-                    'repo': os.getenv('GITHUB_REPO'),
-                    'owner': os.getenv('GITHUB_OWNER'),
-                    'access_token': os.getenv('ACCESS_TOKEN'),
-                    'refresh_token': os.getenv('REFRESH_TOKEN')
-                }
-            else:
-                config = {
-                    'aws_access_key_id': credential.access_key,
-                    'aws_secret_access_key': credential.secret_key,
-                    'aws_region': aws['aws_region'],
-                    'bucket_name': self.store_bucket,
-                    'credentials_json': credential.api_key,
-                    'api_token': credential.access_token,
-                    'database_id': credential.api_endpoint,
-                    'token': credential.access_token,
-                    'repo': credential.session_key,
-                    'owner': credential.secret_key,
-                    'access_token': credential.access_token,
-                    'refresh_token': credential.refresh_token
-                }
-
-            if provider.pvd_key == "AS":
-                return self.service_manager.get_service(ServiceType.S3, config)
-            elif provider.pvd_key == "GD":
-                return self.service_manager.get_service(ServiceType.GOOGLE_DRIVE, config)
-            elif provider.pvd_key == "NT":
-                return self.service_manager.get_service(ServiceType.NOTION, config)
-            elif provider.pvd_key == "GH":
-                return self.service_manager.get_service(ServiceType.GITHUB, config)
-            else:
-                raise ValueError(f"Unsupported provider key: {provider.pvd_key}")
-            
-        except Exception as e:
-            print(f"Error while setting storage credential: {e}")
-            return None
+            csp_provider = os.getenv("CSP_PROVIDER")  
+            config = {}  
+  
+            if csp_provider == "azure":  
+                config = {  
+                    'account_name': os.getenv('AZURE_STORAGE_ACCOUNT_NAME'),  
+                    'account_key': os.getenv('AZURE_STORAGE_ACCOUNT_KEY'),  
+                    'container_name': os.getenv('AZURE_STORAGE_CONTAINER_NAME'),  
+                    'sas_token': os.getenv('AZURE_STORAGE_SAS_TOKEN')  
+                }  
+                return self.service_manager.get_service(ServiceType.AZURE_STORAGE, config)  
+  
+            elif csp_provider == "aws":  
+                config = {  
+                    'aws_access_key_id': os.getenv('AWS_ACCESS_KEY_ID'),  
+                    'aws_secret_access_key': os.getenv('AWS_SECRET_ACCESS_KEY'),  
+                    'aws_region': os.getenv('AWS_REGION'),  
+                    'bucket_name': os.getenv('AWS_S3_BUCKET_NAME')  
+                }  
+                return self.service_manager.get_service(ServiceType.S3, config)  
+  
+            elif csp_provider == "gcp":  
+                config = {  
+                    'project_id': os.getenv('GCP_PROJECT_ID'),  
+                    'bucket_name': os.getenv('GCP_BUCKET_NAME'),  
+                    'credentials_json': os.getenv('GCP_CREDENTIALS_PATH') 
+                }  
+                return self.service_manager.get_service(ServiceType.GCS, config)  
+  
+            else:  
+                raise ValueError(f"Unsupported CSP provider: {csp_provider}")  
+  
+        except Exception as e:  
+            print(f"Error while setting storage credential: {e}")  
+            return None  
 
     def _set_document_loader_credential(self, credential_id: UUID):
         try:

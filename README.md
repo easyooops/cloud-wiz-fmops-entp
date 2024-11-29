@@ -1,4 +1,4 @@
-# Cloud Wiz FMOps
+# Cloud Wiz AI FMOps Enterprise.ver
 
 ![Cloud Wiz FMOps Logo](https://management.cloudwiz-ai.com/images/wiz/logo-pink.png)
 
@@ -17,11 +17,8 @@ To get started with Cloud Wiz FMOps, follow the steps below:
 # ubuntu, mac
 sudo npm install && sudo npm start
 
-
-# powershell 관리자 모드 열기, 관리자 모드로 vscode 실행
-code .
-
-# window (package.json 파일 변경)
+# 1. window (change file package.json)
+# 2. powershell Administrator, run npm install
 npm install
 npm start
 ```

@@ -20,8 +20,14 @@
       "type": "sub",
       "badgeType": "light-primary",
       "badgeValue": "2",
-      "active": false,
+      "active": true,
       "children": [
+        {
+          "path": "/agent/prebuilt",
+          "title": "Prebuilt",
+          "type": "link",
+          "active":false
+        },        
         {
           "path": "/agent/list",
           "title": "Builder",
@@ -57,22 +63,6 @@
       "title": "Processing",
       "icon": "stroke-task",
       "iconf":"fill-task",
-      "type": "link",
-      "active": false
-    },
-    {
-      "path": "/opinion/create",
-      "title": "Opinions",
-      "icon": "stroke-faq",
-      "iconf":"fill-faq",
-      "type": "link",
-      "active": false
-    },
-    {
-      "path": "/tutorial",
-      "title": "Tutorial",
-      "icon": "stroke-faq",
-      "iconf":"fill-faq",
       "type": "link",
       "active": false
     }

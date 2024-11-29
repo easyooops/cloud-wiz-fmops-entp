@@ -1,6 +1,6 @@
 from typing import List
 import pandas as pd
-from langchain_community.document_loaders import TextLoader, PyPDFLoader, CSVLoader, Docx2txtLoader
+from langchain_community.document_loaders import TextLoader, PyPDFLoader, CSVLoader, Docx2txtLoader, JSONLoader, BSHTMLLoader
 from langchain_core.documents import Document
 
 class DocumentLoaderComponent:
@@ -18,6 +18,12 @@ class DocumentLoaderComponent:
         elif file_path.endswith('.docx'):
             loader = Docx2txtLoader(file_path)
             return loader.load()
+        elif file_path.endswith('.json'):
+            loader = JSONLoader(file_path)
+            return loader.load()   
+        elif file_path.endswith('.html'):
+            loader = BSHTMLLoader(file_path)
+            return loader.load()                 
         elif file_path.endswith('.xlsx'):
             documents = []
             xlsx = pd.ExcelFile(file_path)

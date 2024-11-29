@@ -1,6 +1,3 @@
-from langchain_openai import OpenAIEmbeddings
-
-
 class AbstractEmbeddingComponent:
     def __init__(self):
         self.model_instance = None

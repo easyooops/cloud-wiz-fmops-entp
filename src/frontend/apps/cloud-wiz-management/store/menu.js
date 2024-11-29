@@ -108,6 +108,9 @@ export const useMenuStore= defineStore({
           });
         }
       });
-    }
+    },  
+    setMargin(newMargin) {  
+        useMenuStore().margin = newMargin;  
+    } 
   }
 })

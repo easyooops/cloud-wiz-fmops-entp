@@ -11,11 +11,11 @@ class KMSService:
     def load_credentials(self):
         load_dotenv()
         self.environment = os.getenv("ENVIRONMENT", "local")
-        self.aws_region = os.getenv("INNER_AWS_REGION", "us-east-1")
+        self.aws_region = os.getenv("AWS_REGION", "us-east-1")
 
         if self.environment == 'local':
-            self.aws_access_key_id = os.getenv("INNER_AWS_ACCESS_KEY_ID")
-            self.aws_secret_access_key = os.getenv("INNER_AWS_SECRET_ACCESS_KEY")
+            self.aws_access_key_id = os.getenv("AWS_ACCESS_KEY_ID")
+            self.aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")
         else:
             self.aws_access_key_id = None
             self.aws_secret_access_key = None

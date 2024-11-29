@@ -17,7 +17,7 @@
                                             <p>Cloudwiz AI FMOps</p>
                                         </div>
                                         <ul class="list-inline float-start float-sm-end chat-menu-icons">
-                                            <li class="list-inline-item" v-if="agentId">
+                                            <li class="list-inline-item" v-if="agentIdData">
                                                 <a href="#" data-bs-toggle="modal" data-bs-target="#agent-modal"><i class="fa fa-code"></i></a>
                                             </li>
                                         </ul>                                            
@@ -69,7 +69,7 @@ export default {
         selectedUser() {
             return useContactStore().selectedUser1
         },
-        agentId() {
+        agentIdData() {
             const agentStore = useAgentStore();
             return agentStore.agent ? agentStore.agent.agent_id : '';
         }        
