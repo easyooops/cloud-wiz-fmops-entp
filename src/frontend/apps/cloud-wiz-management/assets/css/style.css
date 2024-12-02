@@ -1300,14 +1300,14 @@ svg.f-light {
   }
 }
 .btn-primary {
-  background-color: #7366FF !important;
-  border-color: #7366FF !important;
+  /*background-color: #7366FF !important;*/
+  /*border-color: #7366FF !important;*/
   -webkit-tap-highlight-color: transparent;
   transform: translateZ(0);
 }
 .btn-primary.disabled, .btn-primary:disabled {
-  background-color: #7366FF !important;
-  border-color: #7366FF !important;
+  /*background-color: #7366FF !important;*/
+  /*border-color: #7366FF !important;*/
 }
 .btn-primary:focus {
   box-shadow: 0 0 0 0.2rem white;
@@ -1425,8 +1425,8 @@ svg.f-light {
 }
 
 .btn-primary {
-  background-color: var(--theme-deafult) !important;
-  border-color: var(--theme-deafult) !important;
+  /*background-color: var(--theme-deafult) !important;*/
+  /*border-color: var(--theme-deafult) !important;*/
 }
 
 .btn-secondary {
@@ -28082,7 +28082,8 @@ button[data-toggle=dropdown]:hover ~ .dropdown-menu {
      47. Footer CSS Start
 ==========================**/
 .footer {
-  background-color: #fff;
+  /*background-color: #fff;*/
+  background-color: #DDE6ED;
   box-shadow: 0 0 20px rgba(89, 102, 122, 0.1);
   padding: 15px;
   bottom: 0;
@@ -29249,6 +29250,7 @@ button[data-toggle=dropdown]:hover ~ .dropdown-menu {
   font-size: 13px;
   letter-spacing: 1px;
   font-family: Roboto, sans-serif;
+  color:white;
 }
 .page-wrapper .page-body-wrapper .page-title .breadcrumb .breadcrumb-item + .breadcrumb-item:before {
   content: "/";
@@ -29260,7 +29262,7 @@ button[data-toggle=dropdown]:hover ~ .dropdown-menu {
   vertical-align: text-top;
 }
 .page-wrapper .page-body-wrapper .page-title .breadcrumb .breadcrumb-item.active {
-  color: var(--theme-deafult);
+  color: wheat; /*color: var(--theme-deafult);*/
   font-weight: 500;
 }
 .page-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content > li a svg.stroke-icon {
@@ -29793,7 +29795,8 @@ button[data-toggle=dropdown]:hover ~ .dropdown-menu {
 .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links li a span {
   letter-spacing: 0.7px;
   text-transform: capitalize;
-  color: rgba(82, 82, 108, 0.8);
+  /*color: rgba(82, 82, 108, 0.8);*/
+  color: #394867;
 }
 .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links li a.link-nav .according-menu {
   display: none;
