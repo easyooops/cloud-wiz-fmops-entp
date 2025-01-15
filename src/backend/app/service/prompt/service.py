@@ -246,10 +246,11 @@ class PromptService:
         elif csp_provider == "aws":  
             aws_access_key = os.getenv("AWS_ACCESS_KEY_ID")  
             aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")  
-            aws_region = os.getenv("AWS_REGION")  
-            if not all([aws_access_key, aws_secret_access_key, aws_region]):  
+            aws_region = os.getenv("AWS_REGION")
+            model_id = os.getenv("AWS_CHAT_MODEL_ID")
+            if not all([aws_access_key, aws_secret_access_key, aws_region, model_id]):
                 raise ValueError("AWS credentials or region are not set in the environment variables.")  
-            return ChatBedrockComponent(aws_access_key, aws_secret_access_key, aws_region)  
+            return ChatBedrockComponent(aws_access_key, aws_secret_access_key, aws_region, model_id)
         
         # Google VertexAI Chat  
         elif csp_provider == "gcp":  
