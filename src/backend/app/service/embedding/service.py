@@ -70,7 +70,7 @@ class EmbeddingService():
             documents = self.load_documents(full_directory_name) 
                 
             # 문서를 1000 단위로 청킹  
-            text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)  
+            text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=20)
             # chunked_docs = [chunk for chunk in text_splitter.split_documents(documents) if chunk.page_content]  
             chunked_docs = text_splitter.split_documents(documents)
                     
@@ -156,10 +156,12 @@ class EmbeddingService():
         elif csp_provider == "aws":  
             aws_access_key = os.getenv("AWS_ACCESS_KEY_ID")  
             aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")  
-            aws_region = os.getenv("AWS_REGION")  
-            if not all([aws_access_key, aws_secret_access_key, aws_region]):  
+            aws_region = os.getenv("AWS_REGION")
+            model_id = os.getenv("AWS_EMBED_MODEL_ID")
+            dimension = os.getenv("AWS_EMBED_DIMENSION")
+            if not all([aws_access_key, aws_secret_access_key, aws_region, model_id, dimension]):
                 raise ValueError("AWS credentials or region are not set in the environment variables.")  
-            return BedrockEmbeddingComponent(aws_access_key, aws_secret_access_key, aws_region)  
+            return BedrockEmbeddingComponent(aws_access_key, aws_secret_access_key, aws_region, model_id, dimension)
   
         # Google VertexAI Embedding
         elif csp_provider == "gcp":  
