@@ -3,7 +3,7 @@ from app.components.Embedding.Base import AbstractEmbeddingComponent
 from langchain_aws import BedrockEmbeddings
 
 class BedrockEmbeddingComponent(AbstractEmbeddingComponent):
-    def __init__(self, aws_access_key: str, aws_secret_access_key: str, aws_region: str):
+    def __init__(self, aws_access_key, aws_secret_access_key, aws_region, model_id, dimension):
         """
         Initialize the BedrockEmbeddingComponent with AWS credentials and region.
         
@@ -16,6 +16,8 @@ class BedrockEmbeddingComponent(AbstractEmbeddingComponent):
         self.aws_access_key = aws_access_key
         self.aws_secret_access_key = aws_secret_access_key
         self.aws_region = aws_region
+        self.model_id = model_id
+        self.dimension = dimension
 
         self.boto3_session = boto3.Session(
             aws_access_key_id=self.aws_access_key,
@@ -25,15 +27,21 @@ class BedrockEmbeddingComponent(AbstractEmbeddingComponent):
 
         self.model_instance = None
 
-    def build(self, model_id: str = "amazon.titan-embed-text-v1", dimension: int = None):
+    def build(self, model_id: str, dimension: int):
         """
         Build and configure the model instance.
         
         Args:
             model_id (str): The model identifier to use. Defaults to "amazon.titan-embed-text-v1".
         """
+        if not model_id:
+            raise ValueError("Model ID must be provided")
+        if not dimension:
+            raise ValueError("Dimension must be provided")
+
         self.model_instance = BedrockEmbeddings(
-            model_id=model_id,
+            model_id=self.model_id,
+            dimension=self.dimension,
             client=self.boto3_session.client('bedrock-runtime')
         )
 

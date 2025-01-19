@@ -359,9 +359,10 @@ export default {
                     updater_id: this.userId
                 };
 
-                if (this.agentIdData) {
+                if (this.agentIdData && this.agentIdData !== 'undefined') {
                     agentData.agent_id = this.agentIdData;
                     await useAgentStore().updateAgent(agentData);
+                    this.successMessage = 'Agent updated successfully.';
                     
                 } else {
                     await useAgentStore().createAgent(agentData);
